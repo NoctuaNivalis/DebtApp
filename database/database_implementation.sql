@@ -1,14 +1,14 @@
 CREATE TABLE User (
-  varchar(50) name;
-  int id AUTO_INCREMENT;
-  PRIMARY KEY(id);
+  name varchar(50) NOT NULL,
+  id integer AUTO_INCREMENT NOT NULL,
+  PRIMARY KEY(id)
 );
 
 CREATE TABLE Debts (
-  int debtid AUTO_INCREMENT;
-  int creditorid;
-  int debtorid;
-  PRIMARY KEY(debtid);
-  FOREIGN KEY(creditorid) REFERENCES User(id);
-  FOREIGN KEY(debtorid) REFERENCES User(id);
+  debtid integer AUTO_INCREMENT NOT NULL,
+  creditorid integer NOT NULL,
+  debtorid integer NOT NULL,
+  PRIMARY KEY(debtid),
+  FOREIGN KEY(creditorid) REFERENCES User(id),
+  FOREIGN KEY(debtorid) REFERENCES User(id)
 );
