@@ -12,3 +12,9 @@ CREATE TABLE Debts (
   FOREIGN KEY(creditorid) REFERENCES User(id),
   FOREIGN KEY(debtorid) REFERENCES User(id)
 );
+
+INSERT INTO User (name) VALUES ('Wouter Pinnoo');
+INSERT INTO User (name) VALUES ('Stefaan Vermassen');
+INSERT INTO User (name) VALUES ('Titouan Vervack');
+INSERT INTO User (name) VALUES ('Eveline Hoogstoel');
+INSERT INTO User (name) VALUES ('Caroline De Brouwer');
