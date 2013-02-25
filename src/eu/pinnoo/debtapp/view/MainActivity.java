@@ -1,7 +1,8 @@
-package eu.pinnoo.debtapp;
+package eu.pinnoo.debtapp.view;
 
 import android.app.Activity;
 import android.os.Bundle;
+import eu.pinnoo.debtapp.R;
 
 public class MainActivity extends Activity
 {

@@ -1,18 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+>
+    <LinearLayout
+                  android:orientation="horizontal"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
     >
-<TextView
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:text="'t is nog maar een test"
+        <EditText
+            android:id="@+id/edit_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
     />
-<EditText
-    android:id="@+id/edit_message"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="switch"
+/>
+        <EditText
+            android:id="@+id/edit_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
     />
+    </LinearLayout>
+    <LinearLayout
+                  android:orientation="horizontal"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+    >
+        <EditText
+            android:id="@+id/edit_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+    />
+        <EditText
+            android:id="@+id/edit_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+    />
+    </LinearLayout>
+    <LinearLayout 
+                  android:orientation="horizontal"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+    >
+        <EditText
+            android:id="@+id/edit_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+    />
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="X"
+    />
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="V"
+    />
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="refresh"
+    />
+    </LinearLayout>
 </LinearLayout>
 
