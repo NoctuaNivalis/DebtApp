@@ -9,3 +9,4 @@ Debts and users are being stored in a MySQL database.
 * Eveline Hoogstoel
 * Stefaan Vermassen
 * Titouan Vervack
+* Caroline De Brouwer
