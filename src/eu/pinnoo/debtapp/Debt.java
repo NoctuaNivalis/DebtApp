@@ -8,18 +8,20 @@ public class Debt {
     
     private int id;
     private double amount;
+    private String description;
     private User creditor;
     private User debtor;
     
-    public Debt(int id, double amount, User creditor, User debtor){
+    public Debt(int id, double amount, String description, User creditor, User debtor){
         this.id = id;
         this.amount = amount;
+        this.description = description;
         this.creditor = creditor;
         this.debtor = debtor;
     }
     
-    public Debt(double amount, User creditor, User debtor){
-        this(-1, amount, creditor, debtor);
+    public Debt(double amount, String description, User creditor, User debtor){
+        this(-1, amount, description, creditor, debtor);
     }
     
     public int getId(){

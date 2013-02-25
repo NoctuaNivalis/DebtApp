@@ -7,6 +7,7 @@ CREATE TABLE User (
 CREATE TABLE Debts (
   debtid integer AUTO_INCREMENT NOT NULL,
   amount double NOT NULL,
+  description varchar(200) NOT NULL,
   creditorid integer NOT NULL,
   debtorid integer NOT NULL,
   PRIMARY KEY(debtid),
