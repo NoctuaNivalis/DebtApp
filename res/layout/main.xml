@@ -7,7 +7,12 @@
 <TextView
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="Hello World, MainActivity"
+    android:text="'t is nog maar een test"
+    />
+<EditText
+    android:id="@+id/edit_message"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     />
 </LinearLayout>
 
