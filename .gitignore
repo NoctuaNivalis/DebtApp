@@ -61,3 +61,4 @@ ant.properties
 
 layout.graffle
 database.properties
+*.psd
