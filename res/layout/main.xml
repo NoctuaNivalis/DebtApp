@@ -19,7 +19,8 @@
             android:id="@+id/btnSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="S" />
+            android:background="@drawable/double_arrow"
+ />
         <Spinner
             android:id="@+id/planets_spinner2"
             android:layout_width="0dp"
@@ -63,21 +64,21 @@
             android:id="@+id/cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="X" 
+            android:text="Clear" 
             android:layout_weight="1"
 />
         <Button
             android:id="@+id/ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="V" 
+            android:text="Apply" 
             android:layout_weight="1"
 />
         <Button
             android:id="@+id/undo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="U" 
+            android:background="@drawable/refreshicon"
             android:layout_weight="1"
 />
     </LinearLayout>
