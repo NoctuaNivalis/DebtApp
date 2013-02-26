@@ -39,4 +39,8 @@ public class Debt {
     public User getDebtor(){
         return debtor;
     }
+    
+    public String getDescription(){
+        return description;
+    }
 }
