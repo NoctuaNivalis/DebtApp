@@ -26,7 +26,6 @@ import java.util.List;
 public class MainActivity extends Activity {
     
     private UserModel usermodel;
-    private DAO dao;
 
 
     /**
@@ -36,29 +35,24 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        dao = new DAO();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         addTableRow(10, "pizza");
-        
-        usermodel = new UserModel();
-        dao = new DAO();
-        usermodel.setUsers(dao.getUsers());
-        
+       
         final Button b = (Button) findViewById(R.id.undo);
-        b.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                User debtor = (User) ((Spinner) findViewById(R.id.spinner1)).getSelectedItem();
-                User creditor = (User) ((Spinner) findViewById(R.id.spinner2)).getSelectedItem();
-                if(debtor == null || creditor == null) return;
-                List<Debt> debts = dao.getDebts(creditor, debtor);
-                Iterator<Debt> it = debts.iterator();
-                while(it.hasNext()){
-                    Debt d = it.next();
-                    addTableRow(d.getAmount(), d.getDescription());
-                }
-            }
-        });
+//        b.setOnClickListener(new View.OnClickListener() {
+//
+//            public void onClick(View v) {
+//                User debtor = (User) ((Spinner) findViewById(R.id.spinner1)).getSelectedItem();
+//                User creditor = (User) ((Spinner) findViewById(R.id.spinner2)).getSelectedItem();
+//                if(debtor == null || creditor == null) return;
+//                List<Debt> debts = dao.getDebts(creditor, debtor);
+//                Iterator<Debt> it = debts.iterator();
+//                while(it.hasNext()){
+//                    Debt d = it.next();
+//                    addTableRow(d.getAmount(), d.getDescription());
+//                }
+//            }
+//        });
     }
     
     private void addTableRow(double amount, String description){
@@ -78,13 +72,6 @@ public class MainActivity extends Activity {
     }
     
     private void addItemsOnUserSpinners(){
-        Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
-        Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
-        List<User> list = dao.getUsers();
-        ArrayAdapter<User> dataAdapter = new ArrayAdapter<User>(this,
-		android.R.layout.simple_spinner_item, list);
-	dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner1.setAdapter(dataAdapter);
-        spinner2.setAdapter(dataAdapter);
+        //To do
     }
 }
