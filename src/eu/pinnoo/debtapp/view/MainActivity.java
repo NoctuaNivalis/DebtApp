@@ -6,18 +6,22 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import eu.pinnoo.debtapp.Debt;
 import eu.pinnoo.debtapp.R;
 import eu.pinnoo.debtapp.User;
 import eu.pinnoo.debtapp.database.DAO;
 import eu.pinnoo.debtapp.models.PasswordModel;
 import eu.pinnoo.debtapp.models.UserModel;
+import java.util.Iterator;
 import java.util.List;
 
 public class MainActivity extends Activity {
@@ -37,6 +41,23 @@ public class MainActivity extends Activity {
         passwordmodel = new PasswordModel();
         dao = new DAO(passwordmodel);
         askForPassword();
+        
+        final Button refreshbutton = (Button) findViewById(R.id.undo);
+        refreshbutton.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                User debtor = (User) ((Spinner) findViewById(R.id.spinner1)).getSelectedItem();
+                User creditor = (User) ((Spinner) findViewById(R.id.spinner2)).getSelectedItem();
+                if(debtor == null || creditor == null) return;
+                List<Debt> debts = dao.getDebts(creditor, debtor);
+                Iterator<Debt> it = debts.iterator();
+                while(it.hasNext()){
+                    Debt d = it.next();
+                    addTableRow(d.getAmount(), d.getDescription());
+                }
+            }
+        });
+        
         addTableRow(10, "pizza");
     }
 
