@@ -77,10 +77,10 @@ public class MainActivity extends Activity {
         tl.addView(tr);
     }
     
-    private void addItemsOnUserSpinners(DAO d){
+    private void addItemsOnUserSpinners(){
         Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
         Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
-        List<User> list = d.getUsers();
+        List<User> list = dao.getUsers();
         ArrayAdapter<User> dataAdapter = new ArrayAdapter<User>(this,
 		android.R.layout.simple_spinner_item, list);
 	dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
