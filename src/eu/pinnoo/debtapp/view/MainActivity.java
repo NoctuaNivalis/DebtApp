@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         passwordmodel = new PasswordModel();
         askForPassword();
-        addTableRow(10, passwordmodel.getPassword());
+        addTableRow(10, "pizza");
     }
 
     private void addTableRow(double amount, String description) {
@@ -75,7 +75,7 @@ public class MainActivity extends Activity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String value = input.getText().toString();
                 passwordmodel.setPassword(value);
-                UpdateItemsInUserSpinners();    
+                UpdateItemsInUserSpinners();   
             }
         });
         alert.show();
