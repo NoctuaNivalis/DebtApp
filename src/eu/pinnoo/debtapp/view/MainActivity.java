@@ -19,32 +19,25 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        //TableLayout t1;
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        addTableRow(10, "pizza");
+    }
+    
+    private void addTableRow(int amount, String description){
         TableLayout tl = (TableLayout) findViewById(R.id.main_table);
-        TableRow tr_head = new TableRow(this);
-        tr_head.setId(10);
-        tr_head.setBackgroundColor(Color.GRAY);
-        tr_head.setLayoutParams(new LayoutParams(
-                LayoutParams.MATCH_PARENT,
-                LayoutParams.WRAP_CONTENT));
+        TableRow entry = new TableRow(this);entry.setBackgroundColor(Color.GRAY);
         TextView label_amount = new TextView(this);
         label_amount.setId(20);
-        label_amount.setText("5");
+        label_amount.setText(amount+"");
         label_amount.setTextColor(Color.WHITE);
         label_amount.setPadding(5, 5, 5, 5);
-        tr_head.addView(label_amount);// add the column to the table row here
-
+        entry.addView(label_amount);
         TextView label_description = new TextView(this);
-        label_description.setId(21);// define id that must be unique
-        label_description.setText("Pizza"); // set the text for the header 
-        label_description.setTextColor(Color.WHITE); // set the color
-        label_description.setPadding(5, 5, 5, 5); // set the padding (if required)
-        tr_head.addView(label_description); // add the column to the table row here
-        tl.addView(tr_head, new TableLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT,
-                LayoutParams.WRAP_CONTENT));
-
+        label_description.setId(21);
+        label_description.setText(description); 
+        label_description.setTextColor(Color.WHITE); 
+        label_description.setPadding(5, 5, 5, 5);
+        entry.addView(label_description);
+        tl.addView(entry);
     }
 }
