@@ -7,20 +7,25 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import eu.pinnoo.debtapp.R;
+import eu.pinnoo.debtapp.User;
 import eu.pinnoo.debtapp.database.DAO;
 import eu.pinnoo.debtapp.models.PasswordModel;
 import eu.pinnoo.debtapp.models.UserModel;
+import java.util.List;
 
 public class MainActivity extends Activity {
 
     private UserModel usermodel;
     private PasswordModel passwordmodel;
     private DAO dao;
+
     /**
      * Called when the activity is first created.
      */
@@ -51,8 +56,14 @@ public class MainActivity extends Activity {
         tl.addView(tr);
     }
 
-    private void UpdateItemsInUserSpinners() {
-        //To do
+    private void updateItemsInUserSpinners() {
+        Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
+        Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
+        List<User> userlist = dao.getUsers();
+        UserArrayAdapter adapter = new UserArrayAdapter(this, userlist);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner1.setAdapter(adapter);
+        spinner2.setAdapter(adapter);
     }
 
     private void askForPassword() {
@@ -65,7 +76,7 @@ public class MainActivity extends Activity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String value = input.getText().toString();
                 passwordmodel.setPassword(value);
-                UpdateItemsInUserSpinners();   
+                updateItemsInUserSpinners();
             }
         });
         alert.show();
