@@ -5,28 +5,15 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import eu.pinnoo.debtapp.Debt;
 import eu.pinnoo.debtapp.R;
-import eu.pinnoo.debtapp.User;
-import eu.pinnoo.debtapp.database.DAO;
 import eu.pinnoo.debtapp.models.PasswordModel;
-import java.util.ArrayList;
-import java.util.List;
 import eu.pinnoo.debtapp.models.UserModel;
-import java.util.Iterator;
-import java.util.List;
 
 public class MainActivity extends Activity {
 
