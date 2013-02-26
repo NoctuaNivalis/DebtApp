@@ -1,35 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
->
-    
-    <LinearLayout 
-                  android:orientation="horizontal"
+              android:orientation="vertical" >
+ 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="fill_parent"
-                  android:layout_height="fill_parent"
-    >
-        <EditText
-            android:id="@+id/edit_message"
-            android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal" >
+    
+        <Spinner
+            android:id="@+id/planets_spinner"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-    />
+            android:layout_weight="1" 
+/>
         <Button
-            android:layout_height="wrap_content"
+            android:id="@+id/btnSwitch"
             android:layout_width="wrap_content"
-            android:text="X"
-    />
-        <Button
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="V"
-    />
-        <Button
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="refresh"
-    />
+            android:text="S" />
+        <Spinner
+            android:id="@+id/planets_spinner2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" 
+            android:layout_weight="1"
+/>
     </LinearLayout>
-</LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal" >
+    
+        <EditText
+            android:id="@+id/btnSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:inputType="number"
+            android:hint="Amount" />
+        <EditText
+            android:id="@+id/btnSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Description" />
+    </LinearLayout>
+    
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal" >
+    
+        <Spinner
+            android:id="@+id/type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" 
+/>
+    
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="X" 
+            android:layout_weight="1"
+/>
+        <Button
+            android:id="@+id/ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="V" 
+            android:layout_weight="1"
+/>
+        <Button
+            android:id="@+id/undo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="U" 
+            android:layout_weight="1"
+/>
+    </LinearLayout>
+ 
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android" 
+                android:scrollbars="vertical" 
+                android:layout_height="fill_parent" 
+                android:layout_width="fill_parent">
 
+         <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:stretchColumns="0,1"
+                    android:id="@+id/main_table" android:layout_weight="1" android:layout_height="wrap_content" android:layout_width="match_parent">
+            </TableLayout>
+    </ScrollView>
+ 
+</LinearLayout>
