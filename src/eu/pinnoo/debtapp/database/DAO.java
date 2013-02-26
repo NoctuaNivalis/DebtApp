@@ -1,12 +1,14 @@
 package eu.pinnoo.debtapp.database;
 
 import eu.pinnoo.debtapp.Debt;
+import eu.pinnoo.debtapp.DebtComparator;
 import eu.pinnoo.debtapp.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -84,12 +86,26 @@ public class DAO {
             stat.executeUpdate();
             stat.close();
             conn.close();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.err.println(e);
         }
     }
-    
-    public List<User> getUsers(){
+
+    public void updateDebtAmount(Debt debt) {
+        try {
+            Connection conn = db.getConnection();
+            PreparedStatement stat = conn.prepareStatement("UPDATE Debts SET amount=? WHERE debtid=?");
+            stat.setDouble(1, debt.getAmount());
+            stat.setInt(2, debt.getId());
+            stat.executeUpdate();
+            stat.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }
+
+    public List<User> getUsers() {
         List<User> users = new ArrayList<User>();
         try {
             Connection conn = db.getConnection();
@@ -106,8 +122,8 @@ public class DAO {
         }
         return users;
     }
-    
-    public boolean payOffDebt(Debt debt){
+
+    protected boolean payOffDebt(Debt debt) {
         boolean success = false;
         try {
             Connection conn = db.getConnection();
@@ -116,9 +132,44 @@ public class DAO {
             success = stat.executeUpdate() > 0;
             stat.close();
             conn.close();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.err.println(e);
         }
         return success;
+    }
+
+    public void payOffDebt(double amount, String description, User creditor, User debtor) {
+        List<Debt> debts = getDebts(creditor, debtor);
+        Collections.sort(debts, new DebtComparator());
+
+        int index = 0;
+        int sum = 0;
+        int sumindex = 0;
+        while (index < debts.size()) {
+            if (amount == debts.get(index).getAmount()) {
+                payOffDebt(debts.get(index));
+                return;
+            } else if (debts.get(index).getAmount() > amount) {
+                break;
+            } else {
+                if (sum + debts.get(index).getAmount() < amount) {
+                    sum += debts.get(index).getAmount();
+                    sumindex++;
+                }
+                index++;
+            }
+        }
+
+        for (int i = 0; i <= sumindex; i++) {
+            payOffDebt(debts.get(i));
+            sum -= debts.get(i).getAmount();
+        }
+
+        if (sumindex + 1 < debts.size()) {
+            debts.get(sumindex + 1).setAmount(debts.get(sumindex + 1).getAmount() - sum);
+            updateDebtAmount(debts.get(sumindex + 1));
+        } else {
+            addDebt(creditor, debtor, new Debt(sum, description, creditor, debtor));
+        }
     }
 }

@@ -43,4 +43,8 @@ public class Debt {
     public String getDescription(){
         return description;
     }
+    
+    public void setAmount(double amount){
+        this.amount = amount;
+    }
 }
