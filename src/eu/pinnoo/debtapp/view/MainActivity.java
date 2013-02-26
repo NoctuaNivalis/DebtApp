@@ -12,6 +12,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import eu.pinnoo.debtapp.R;
+import eu.pinnoo.debtapp.database.DAO;
 import eu.pinnoo.debtapp.models.PasswordModel;
 import eu.pinnoo.debtapp.models.UserModel;
 
@@ -19,6 +20,7 @@ public class MainActivity extends Activity {
 
     private UserModel usermodel;
     private PasswordModel passwordmodel;
+    private DAO dao;
     /**
      * Called when the activity is first created.
      */
@@ -28,6 +30,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         passwordmodel = new PasswordModel();
+        dao = new DAO(passwordmodel);
         askForPassword();
         addTableRow(10, "pizza");
     }
