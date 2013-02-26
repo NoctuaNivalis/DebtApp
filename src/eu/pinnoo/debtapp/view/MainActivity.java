@@ -13,12 +13,15 @@ import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import eu.pinnoo.debtapp.Debt;
 import eu.pinnoo.debtapp.R;
 import eu.pinnoo.debtapp.User;
 import eu.pinnoo.debtapp.database.DAO;
 import java.util.ArrayList;
 import java.util.List;
 import eu.pinnoo.debtapp.models.UserModel;
+import java.util.Iterator;
+import java.util.List;
 
 public class MainActivity extends Activity {
     
@@ -47,13 +50,19 @@ public class MainActivity extends Activity {
         b.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                User debtor = (User) ((Spinner) findViewById(R.id.planets_spinner)).getSelectedItem();
-                User creditor = (User) ((Spinner) findViewById(R.id.planets_spinner2)).getSelectedItem();
+                User debtor = (User) ((Spinner) findViewById(R.id.spinner1)).getSelectedItem();
+                User creditor = (User) ((Spinner) findViewById(R.id.spinner2)).getSelectedItem();
+                List<Debt> debts = dao.getDebts(creditor, debtor);
+                Iterator<Debt> it = debts.iterator();
+                while(it.hasNext()){
+                    Debt d = it.next();
+                    addTableRow(d.getAmount(), d.getDescription());
+                }
             }
         });
     }
     
-    private void addTableRow(int amount, String description){
+    private void addTableRow(double amount, String description){
         LayoutInflater inflater = getLayoutInflater();
         TableLayout tl = (TableLayout) findViewById(R.id.main_table);
         TableRow tr = (TableRow)inflater.inflate(R.layout.table_row, tl, false);
