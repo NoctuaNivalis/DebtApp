@@ -25,9 +25,7 @@ import java.util.List;
 
 public class MainActivity extends Activity {
     
-    private DAO dao;
     private UserModel usermodel;
-    private DAO doa;
     private DAO dao;
 
 
@@ -52,6 +50,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 User debtor = (User) ((Spinner) findViewById(R.id.spinner1)).getSelectedItem();
                 User creditor = (User) ((Spinner) findViewById(R.id.spinner2)).getSelectedItem();
+                if(debtor == null || creditor == null) return;
                 List<Debt> debts = dao.getDebts(creditor, debtor);
                 Iterator<Debt> it = debts.iterator();
                 while(it.hasNext()){
