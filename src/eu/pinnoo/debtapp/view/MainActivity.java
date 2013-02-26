@@ -3,6 +3,7 @@ package eu.pinnoo.debtapp.view;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.TableLayout;
@@ -24,20 +25,18 @@ public class MainActivity extends Activity {
     }
     
     private void addTableRow(int amount, String description){
+        LayoutInflater inflater = getLayoutInflater();
         TableLayout tl = (TableLayout) findViewById(R.id.main_table);
-        TableRow entry = new TableRow(this);entry.setBackgroundColor(Color.GRAY);
-        TextView label_amount = new TextView(this);
-        label_amount.setId(20);
+        TableRow tr = (TableRow)inflater.inflate(R.layout.table_row, tl, false);
+        tr.setBackgroundColor(Color.GRAY);
+        TextView label_amount = (TextView)tr.findViewById(R.id.amount);
         label_amount.setText(amount+"");
-        label_amount.setTextColor(Color.WHITE);
         label_amount.setPadding(5, 5, 5, 5);
-        entry.addView(label_amount);
-        TextView label_description = new TextView(this);
-        label_description.setId(21);
+        label_amount.setTextColor(Color.RED);
+        TextView label_description = (TextView)tr.findViewById(R.id.description);;
         label_description.setText(description); 
-        label_description.setTextColor(Color.WHITE); 
         label_description.setPadding(5, 5, 5, 5);
-        entry.addView(label_description);
-        tl.addView(entry);
+        label_description.setTextColor(Color.WHITE); 
+        tl.addView(tr);
     }
 }
