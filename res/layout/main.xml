@@ -10,7 +10,7 @@
                   android:orientation="horizontal" >
     
         <Spinner
-            android:id="@+id/planets_spinner"
+            android:id="@+id/spinner1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" 
@@ -22,7 +22,7 @@
             android:background="@drawable/double_arrow"
  />
         <Spinner
-            android:id="@+id/planets_spinner2"
+            android:id="@+id/spinner2"
             android:layout_width="0dp"
             android:layout_height="wrap_content" 
             android:layout_weight="1"

@@ -39,4 +39,8 @@ public class MainActivity extends Activity {
         label_description.setTextColor(Color.WHITE); 
         tl.addView(tr);
     }
+    
+    private void addItemsOnUserSpinners(){
+        //To implement
+    }
 }
