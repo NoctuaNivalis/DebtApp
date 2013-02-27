@@ -61,13 +61,6 @@ public class MainActivity extends Activity {
         creditorspinner.setOnItemSelectedListener(listener);
         debtorspinner.setOnItemSelectedListener(listener);
 
-        final Button refreshbutton = (Button) findViewById(R.id.undo);
-        refreshbutton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                refresh();
-            }
-        });
-
         final Button clearbutton = (Button) findViewById(R.id.cancel);
         clearbutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
