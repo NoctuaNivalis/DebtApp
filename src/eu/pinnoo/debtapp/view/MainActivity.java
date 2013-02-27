@@ -24,6 +24,7 @@ import eu.pinnoo.debtapp.models.PasswordModel;
 import eu.pinnoo.debtapp.models.UserModel;
 import java.util.Iterator;
 import java.util.List;
+import javax.crypto.spec.OAEPParameterSpec;
 
 public class MainActivity extends Activity {
 
@@ -60,14 +61,48 @@ public class MainActivity extends Activity {
         final Button applybutton = (Button) findViewById(R.id.ok);
         applybutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                double amount = Double.parseDouble((((EditText) findViewById(R.id.amount_edittext)).getText().toString()));
-                String description = ((EditText) findViewById(R.id.description_edittext)).getText().toString();
+                boolean valid = true;
+                double tmpamount = 0;
+                try {
+                    tmpamount = Double.parseDouble((((EditText) findViewById(R.id.amount_edittext)).getText().toString()));
+                } catch (NumberFormatException e) {
+                    return;
+                }
+                
+                final String description = ((EditText) findViewById(R.id.description_edittext)).getText().toString();
+
+                final Double amount = tmpamount;
+                if (amount == 0 || description == null || description.isEmpty()) {
+                    AlertDialog.Builder alt_bld = new AlertDialog.Builder(MainActivity.this);
+                    alt_bld.setMessage("Proceed without description?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            apply(amount, description);
+                        }
+                    })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alert = alt_bld.create();
+                    alert.setTitle("Empty description!");
+                    //alert.setIcon(R.drawable);
+                    alert.show();
+                }
+            }
+
+            private void apply(double amount, String description) {
                 User debtor = (User) ((Spinner) findViewById(R.id.spinner1)).getSelectedItem();
                 User creditor = (User) ((Spinner) findViewById(R.id.spinner2)).getSelectedItem();
 
-                dao.addDebt(creditor, debtor, new Debt(amount, description, creditor, debtor));
+                dao.addDebt(creditor, debtor,
+                        new Debt(amount, description, creditor, debtor));
                 refresh();
+
                 clearFields();
+
             }
         });
     }
@@ -81,6 +116,9 @@ public class MainActivity extends Activity {
             return;
         }
         List<Debt> debts = dao.getDebts(creditor, debtor);
+        if (debts == null || debts.isEmpty()) {
+            return;
+        }
         Iterator<Debt> it = debts.iterator();
         int rowNumber = 0;
         while (it.hasNext()) {
