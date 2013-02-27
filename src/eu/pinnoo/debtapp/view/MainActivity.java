@@ -55,27 +55,37 @@ public class MainActivity extends Activity {
                 }
                 List<Debt> debts = dao.getDebts(creditor, debtor);
                 Iterator<Debt> it = debts.iterator();
+                int rowNumber=0;
                 while (it.hasNext()) {
                     Debt d = it.next();
-                    addTableRow(d.getAmount(), d.getDescription());
+                    addTableRow(d.getAmount(), d.getDescription(), rowNumber);
+                    rowNumber++;
                 }
             }
         });
     }
 
-    private void addTableRow(double amount, String description) {
+    private void addTableRow(double amount, String description, int rowNumber) {
         LayoutInflater inflater = getLayoutInflater();
         TableLayout tl = (TableLayout) findViewById(R.id.main_table);
         TableRow tr = (TableRow) inflater.inflate(R.layout.table_row, tl, false);
-        tr.setBackgroundColor(Color.GRAY);
         TextView label_amount = (TextView) tr.findViewById(R.id.amount);
         label_amount.setText(amount + "");
         label_amount.setPadding(5, 5, 5, 5);
-        label_amount.setTextColor(Color.RED);
         TextView label_description = (TextView) tr.findViewById(R.id.description);;
         label_description.setText(description);
         label_description.setPadding(5, 5, 5, 5);
-        label_description.setTextColor(Color.WHITE);
+        //Set colors of background and colors of font sizes
+        if (rowNumber%2==0){
+            tr.setBackgroundColor(Color.GRAY);
+            label_amount.setTextColor(Color.RED);
+            label_description.setTextColor(Color.BLACK);
+            
+        } else{
+            tr.setBackgroundColor(Color.LTGRAY);
+            label_amount.setTextColor(Color.RED);
+            label_description.setTextColor(Color.BLACK);
+        }
         tl.addView(tr);
     }
 
