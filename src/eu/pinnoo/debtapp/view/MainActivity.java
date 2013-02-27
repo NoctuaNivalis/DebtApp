@@ -9,6 +9,8 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,6 +45,21 @@ public class MainActivity extends Activity {
         passwordmodel = new PasswordModel();
         dao = new DAO(passwordmodel);
         askForPassword("Password needed!");
+        
+        final Spinner creditorspinner = (Spinner) findViewById(R.id.spinner1);
+        final Spinner debtorspinner = (Spinner) findViewById(R.id.spinner2);
+        
+        OnItemSelectedListener listener = new OnItemSelectedListener() {
+
+            public void onItemSelected(AdapterView<?> av, View view, int i, long l) {
+                refresh();
+            }
+
+            public void onNothingSelected(AdapterView<?> av) {}
+        };
+        
+        creditorspinner.setOnItemSelectedListener(listener);
+        debtorspinner.setOnItemSelectedListener(listener);
 
         final Button refreshbutton = (Button) findViewById(R.id.undo);
         refreshbutton.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +105,6 @@ public class MainActivity extends Activity {
                     });
                     AlertDialog alert = alt_bld.create();
                     alert.setTitle("Empty description!");
-                    //alert.setIcon(R.drawable);
                     alert.show();
                 }
             }
