@@ -46,24 +46,17 @@ public class MainActivity extends Activity {
         final Button refreshbutton = (Button) findViewById(R.id.undo);
         refreshbutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                TableLayout table = (TableLayout) findViewById(R.id.main_table);
-                table.removeViews(1, table.getChildCount()-1);
-                User debtor = (User) ((Spinner) findViewById(R.id.spinner1)).getSelectedItem();
-                User creditor = (User) ((Spinner) findViewById(R.id.spinner2)).getSelectedItem();
-                if (debtor == null || creditor == null) {
-                    return;
-                }
-                List<Debt> debts = dao.getDebts(creditor, debtor);
-                Iterator<Debt> it = debts.iterator();
-                int rowNumber=0;
-                while (it.hasNext()) {
-                    Debt d = it.next();
-                    addTableRow(d.getAmount(), d.getDescription(), rowNumber);
-                    rowNumber++;
-                }
+                refresh();
             }
         });
-        
+
+        final Button clearbutton = (Button) findViewById(R.id.cancel);
+        clearbutton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                clearFields();
+            }
+        });
+
         final Button applybutton = (Button) findViewById(R.id.ok);
         applybutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -71,18 +64,35 @@ public class MainActivity extends Activity {
                 String description = ((EditText) findViewById(R.id.description_edittext)).getText().toString();
                 User debtor = (User) ((Spinner) findViewById(R.id.spinner1)).getSelectedItem();
                 User creditor = (User) ((Spinner) findViewById(R.id.spinner2)).getSelectedItem();
-                
+
                 dao.addDebt(creditor, debtor, new Debt(amount, description, creditor, debtor));
+                refresh();
+                clearFields();
             }
         });
-        
-        final Button clearbutton = (Button) findViewById(R.id.cancel);
-        clearbutton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ((EditText) findViewById(R.id.amount_edittext)).setText("");
-                ((EditText) findViewById(R.id.description_edittext)).setText("");
-            }
-        });
+    }
+
+    private void refresh() {
+        TableLayout table = (TableLayout) findViewById(R.id.main_table);
+        table.removeViews(1, table.getChildCount() - 1);
+        User debtor = (User) ((Spinner) findViewById(R.id.spinner1)).getSelectedItem();
+        User creditor = (User) ((Spinner) findViewById(R.id.spinner2)).getSelectedItem();
+        if (debtor == null || creditor == null) {
+            return;
+        }
+        List<Debt> debts = dao.getDebts(creditor, debtor);
+        Iterator<Debt> it = debts.iterator();
+        int rowNumber = 0;
+        while (it.hasNext()) {
+            Debt d = it.next();
+            addTableRow(d.getAmount(), d.getDescription(), rowNumber);
+            rowNumber++;
+        }
+    }
+
+    private void clearFields() {
+        ((EditText) findViewById(R.id.amount_edittext)).setText("");
+        ((EditText) findViewById(R.id.description_edittext)).setText("");
     }
 
     private void addTableRow(double amount, String description, int rowNumber) {
@@ -96,12 +106,12 @@ public class MainActivity extends Activity {
         label_description.setText(description);
         label_description.setPadding(5, 5, 5, 5);
         //Set colors of background and colors of font sizes
-        if (rowNumber%2==0){
+        if (rowNumber % 2 == 0) {
             tr.setBackgroundColor(Color.GRAY);
             label_amount.setTextColor(Color.RED);
             label_description.setTextColor(Color.BLACK);
-            
-        } else{
+
+        } else {
             tr.setBackgroundColor(Color.LTGRAY);
             label_amount.setTextColor(Color.RED);
             label_description.setTextColor(Color.BLACK);
@@ -113,7 +123,7 @@ public class MainActivity extends Activity {
         Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
         Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
         List<User> userlist = dao.getUsers();
-        if(userlist == null){
+        if (userlist == null) {
             askForPassword("Something went wrong!");
             return;
         }
