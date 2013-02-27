@@ -36,7 +36,7 @@ public class UserArrayAdapter extends ArrayAdapter<User> {
         if (v == null) {
             v = new TextView(activity);
         }
-        v.setTextColor(Color.BLACK);
+        v.setTextColor(Color.WHITE);
         v.setText(users.get(position).getName());
         return v;
     }
