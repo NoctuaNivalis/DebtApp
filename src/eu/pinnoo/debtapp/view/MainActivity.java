@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
         final Button applybutton = (Button) findViewById(R.id.ok);
         applybutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                double amount = Double.parseDouble(((EditText) findViewById(R.id.amount)).getText().toString());
+                double amount = Double.parseDouble((((EditText) findViewById(R.id.amount)).getText().toString()));
                 String description = ((EditText) findViewById(R.id.description)).getText().toString();
                 User debtor = (User) ((Spinner) findViewById(R.id.spinner1)).getSelectedItem();
                 User creditor = (User) ((Spinner) findViewById(R.id.spinner2)).getSelectedItem();
