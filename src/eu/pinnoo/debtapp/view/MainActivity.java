@@ -153,11 +153,15 @@ public class MainActivity extends Activity {
         }
         Iterator<Debt> it = debts.iterator();
         int rowNumber = 0;
+        double amount=0;
         while (it.hasNext()) {
             Debt d = it.next();
             addTableRow(d.getAmount(), d.getDescription(), rowNumber);
+            amount+=d.getAmount();
             rowNumber++;
         }
+        TextView totalamount = (TextView) this.findViewById(R.id.totalamount); 
+        totalamount.setText(amount+"");
     }
 
     private void clearFields() {
