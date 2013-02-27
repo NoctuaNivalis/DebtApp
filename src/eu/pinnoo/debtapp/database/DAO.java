@@ -81,7 +81,7 @@ public class DAO {
         if (debtor.getId() == -1) {
             debtor.setId(getUserId(debtor));
         }
-        String stmt = "INSERT INTO Debts(amount, description, creditorid, debtorid) VALUES(" + debt.getAmount() + ", " + debt.getDescription() + ", " + creditor.getId() + ", " + debtor.getId()+")";
+        String stmt = "INSERT INTO Debts(amount, description, creditorid, debtorid) VALUES(" + debt.getAmount() + ", \"" + debt.getDescription() + "\", " + creditor.getId() + ", " + debtor.getId()+")";
         Database.sendRequest(stmt, pmodel);
     }
 
