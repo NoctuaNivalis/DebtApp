@@ -86,10 +86,10 @@ public class DAO {
         Iterator<Debt> it = debtsCreditor.iterator();
         while (it.hasNext()) {
             Debt d = it.next();
-            if(d.getAmount() == debt.getAmount()){
+            if (d.getAmount() == debt.getAmount()) {
                 payOffDebt(d);
                 return;
-            } else if (d.getAmount() < debt.getAmount()){
+            } else if (d.getAmount() < debt.getAmount()) {
                 debt.setAmount(debt.getAmount() - d.getAmount());
                 payOffDebt(d);
                 updateDebtAmount(debt);
@@ -161,9 +161,12 @@ public class DAO {
             } else if (debts.get(index).getAmount() > amount) {
                 break;
             } else {
-                if (sum + debts.get(index).getAmount() < amount) {
+                if (sum + debts.get(index).getAmount() <= amount) {
                     sum += debts.get(index).getAmount();
                     sumindex++;
+                    if (sum == amount) {
+                        break;
+                    }
                 }
                 index++;
             }
@@ -171,14 +174,16 @@ public class DAO {
 
         for (int i = 0; i < sumindex; i++) {
             payOffDebt(debts.get(i));
-            sum -= debts.get(i).getAmount();
+        }
+        if (sum == amount) {
+            return;
         }
 
-        if (sumindex + 1 < debts.size()) {
-            debts.get(sumindex + 1).setAmount(debts.get(sumindex + 1).getAmount() - sum);
-            updateDebtAmount(debts.get(sumindex + 1));
+        if (sumindex < debts.size()) {
+            debts.get(sumindex).setAmount(debts.get(sumindex).getAmount() - (amount - sum));
+            updateDebtAmount(debts.get(sumindex));
         } else {
-            addDebt(creditor, debtor, new Debt(sum, description, creditor, debtor));
+            addDebt(debtor, creditor, new Debt((amount - sum), description, debtor, creditor));
         }
     }
 }
