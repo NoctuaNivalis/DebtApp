@@ -94,8 +94,11 @@ public class MainActivity extends Activity {
                 
                 final String description = ((EditText) findViewById(R.id.description_edittext)).getText().toString();
 
-                final Double amount = tmpamount;
-                if (amount == 0 || description == null || description.isEmpty()) {
+                final double amount = tmpamount;
+                
+                if(amount == 0 || description == null) return;
+                
+                if (description.isEmpty()) {
                     AlertDialog.Builder alt_bld = new AlertDialog.Builder(MainActivity.this);
                     alt_bld.setMessage("Proceed without description?")
                             .setCancelable(false)
@@ -112,6 +115,8 @@ public class MainActivity extends Activity {
                     AlertDialog alert = alt_bld.create();
                     alert.setTitle("Empty description!");
                     alert.show();
+                } else {
+                    apply(amount, description);
                 }
             }
 
