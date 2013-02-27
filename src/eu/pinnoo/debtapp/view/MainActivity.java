@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -41,24 +42,25 @@ public class MainActivity extends Activity {
         passwordmodel = new PasswordModel();
         dao = new DAO(passwordmodel);
         askForPassword();
-        
+
         final Button refreshbutton = (Button) findViewById(R.id.undo);
         refreshbutton.setOnClickListener(new View.OnClickListener() {
-
             public void onClick(View v) {
+                TableLayout table = (TableLayout) findViewById(R.id.main_table);
+                table.removeViews(1, table.getChildCount()-1);
                 User debtor = (User) ((Spinner) findViewById(R.id.spinner1)).getSelectedItem();
                 User creditor = (User) ((Spinner) findViewById(R.id.spinner2)).getSelectedItem();
-                if(debtor == null || creditor == null) return;
+                if (debtor == null || creditor == null) {
+                    return;
+                }
                 List<Debt> debts = dao.getDebts(creditor, debtor);
                 Iterator<Debt> it = debts.iterator();
-                while(it.hasNext()){
+                while (it.hasNext()) {
                     Debt d = it.next();
                     addTableRow(d.getAmount(), d.getDescription());
                 }
             }
         });
-        
-        addTableRow(10, "pizza");
     }
 
     private void addTableRow(double amount, String description) {
@@ -92,6 +94,8 @@ public class MainActivity extends Activity {
         alert.setTitle("Password needed!");
         alert.setMessage("Please enter the password of the database.");
         final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        input.setSelection(input.getText().length());
         alert.setView(input);
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
