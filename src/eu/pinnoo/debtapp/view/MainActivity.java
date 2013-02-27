@@ -65,7 +65,7 @@ public class MainActivity extends Activity {
         });
         
         final Button applybutton = (Button) findViewById(R.id.ok);
-        refreshbutton.setOnClickListener(new View.OnClickListener() {
+        applybutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 double amount = Double.parseDouble(((EditText) findViewById(R.id.amount)).getText().toString());
                 String description = ((EditText) findViewById(R.id.description)).getText().toString();
