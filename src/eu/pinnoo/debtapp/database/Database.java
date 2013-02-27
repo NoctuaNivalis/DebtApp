@@ -97,7 +97,11 @@ public class Database {
         }
         JSONArray arr = null;
         try {
-            arr = new JSONArray(result);
+            if(result == "" || result == null) {
+                arr = new JSONArray();
+            } else {
+                arr = new JSONArray(result);
+            }
         } catch (JSONException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
