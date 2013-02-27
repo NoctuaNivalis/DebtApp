@@ -4,26 +4,11 @@ import eu.pinnoo.debtapp.Debt;
 import eu.pinnoo.debtapp.DebtComparator;
 import eu.pinnoo.debtapp.User;
 import eu.pinnoo.debtapp.models.PasswordModel;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -90,40 +75,19 @@ public class DAO {
     }
 
     public void addDebt(User creditor, User debtor, Debt debt) {
-        /*if (creditor.getId() == -1) {
+        if (creditor.getId() == -1) {
             creditor.setId(getUserId(creditor));
         }
         if (debtor.getId() == -1) {
             debtor.setId(getUserId(debtor));
         }
-
-        try {
-            Connection conn = db.getConnection();
-            PreparedStatement stat = conn.prepareStatement("INSERT INTO Debts(amount, description, creditorid, debtorid) VALUES(?,?,?,?)");
-            stat.setDouble(1, debt.getAmount());
-            stat.setString(2, debt.getDescription());
-            stat.setInt(3, creditor.getId());
-            stat.setInt(4, debtor.getId());
-            stat.executeUpdate();
-            stat.close();
-            conn.close();
-        } catch (SQLException e) {
-            System.err.println(e);
-        }*/
+        String stmt = "INSERT INTO Debts(amount, description, creditorid, debtorid) VALUES(" + debt.getAmount() + ", " + debt.getDescription() + ", " + creditor.getId() + ", " + debtor.getId()+")";
+        Database.sendRequest(stmt, pmodel);
     }
 
     public void updateDebtAmount(Debt debt) {
-        /*try {
-            Connection conn = db.getConnection();
-            PreparedStatement stat = conn.prepareStatement("UPDATE Debts SET amount=? WHERE debtid=?");
-            stat.setDouble(1, debt.getAmount());
-            stat.setInt(2, debt.getId());
-            stat.executeUpdate();
-            stat.close();
-            conn.close();
-        } catch (SQLException e) {
-            System.err.println(e);
-        }*/
+        String stmt = "UPDATE Debts SET amount="+debt.getAmount()+" WHERE debtid="+debt.getId();
+        Database.sendRequest(stmt, pmodel);
     }
 
     public List<User> getUsers() {
@@ -148,19 +112,9 @@ public class DAO {
         return users;
     }
 
-    protected boolean payOffDebt(Debt debt) {
-        boolean success = false;
-        /*try {
-            Connection conn = db.getConnection();
-            PreparedStatement stat = conn.prepareStatement("DELETE FROM Debts WHERE debtid=?");
-            stat.setDouble(1, debt.getId());
-            success = stat.executeUpdate() > 0;
-            stat.close();
-            conn.close();
-        } catch (SQLException e) {
-            System.err.println(e);
-        }*/
-        return success;
+    protected void payOffDebt(Debt debt) {        
+        String stmt = "DELETE FROM Debts WHERE debtid="+debt.getId();
+        Database.sendRequest(stmt, pmodel);
     }
 
     public void payOffDebt(double amount, String description, User creditor, User debtor) {
