@@ -2,17 +2,12 @@ Database implementation
 =======================
 
 This Android app uses a MySQL database to store the debts.   
-Make a file in this directory named `database.properties` in which you save your username, password and the link to your database.  
-e.g.:   
+Put the file `sql.php` on your server and fill in your username and password of the MySQL database.   
+The Android application can access the database by sending a POST request to sql.php with two parameters:
+	password:<password check in the php file>
+	stmt:<MySQL-statement>   
+`sql.php` will return a JSON file which contains the response of the MySQL database.   
 
-    url = jdbc:mysql://servername:3306/debtdb?zeroDateTimeBehavior=convertToNull
-    
-    driver = com.mysql.jdbc.Driver
-  
-    user = debtdbuser
-  
-    password = XXXXXXXXX
-   
 As you can see in [database_implementation.sql](database_implementation.sql), the database consists of two tables:
 * User(name:varchar, id:integer)
 * Debts(debtid:integer, amount:double, description:varchar, creditorid:integer, debtorid:integer)
