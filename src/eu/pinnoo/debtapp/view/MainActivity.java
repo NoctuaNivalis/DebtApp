@@ -61,6 +61,19 @@ public class MainActivity extends Activity {
         creditorspinner.setOnItemSelectedListener(listener);
         debtorspinner.setOnItemSelectedListener(listener);
 
+        final Button switchbutton = (Button) findViewById(R.id.btnSwitch);
+        switchbutton.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                int cpos = creditorspinner.getSelectedItemPosition();
+                int dpos = debtorspinner.getSelectedItemPosition();
+                
+                creditorspinner.setSelection(dpos);
+                debtorspinner.setSelection(cpos);
+                refresh();
+            }
+        });
+        
         final Button clearbutton = (Button) findViewById(R.id.cancel);
         clearbutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
