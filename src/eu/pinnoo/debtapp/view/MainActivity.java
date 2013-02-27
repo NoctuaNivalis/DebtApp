@@ -79,8 +79,8 @@ public class MainActivity extends Activity {
         final Button clearbutton = (Button) findViewById(R.id.cancel);
         clearbutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ((EditText) findViewById(R.id.amount)).setText("");
-                ((EditText) findViewById(R.id.description)).setText("");
+                ((EditText) findViewById(R.id.amount_edittext)).setText("");
+                ((EditText) findViewById(R.id.description_edittext)).setText("");
             }
         });
     }
