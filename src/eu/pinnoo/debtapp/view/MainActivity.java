@@ -43,11 +43,12 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         passwordmodel = new PasswordModel();
+        usermodel = new UserModel(this);
         dao = new DAO(passwordmodel);
         askForPassword("Password needed!");
         
-        final Spinner creditorspinner = (Spinner) findViewById(R.id.spinner1);
-        final Spinner debtorspinner = (Spinner) findViewById(R.id.spinner2);
+        final Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
+        final Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
         
         OnItemSelectedListener listener = new OnItemSelectedListener() {
 
@@ -58,18 +59,22 @@ public class MainActivity extends Activity {
             public void onNothingSelected(AdapterView<?> av) {}
         };
         
-        creditorspinner.setOnItemSelectedListener(listener);
-        debtorspinner.setOnItemSelectedListener(listener);
+        spinner1.setOnItemSelectedListener(listener);
+        spinner2.setOnItemSelectedListener(listener);
 
         final Button switchbutton = (Button) findViewById(R.id.btnSwitch);
         switchbutton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                int cpos = creditorspinner.getSelectedItemPosition();
-                int dpos = debtorspinner.getSelectedItemPosition();
-                
-                creditorspinner.setSelection(dpos);
-                debtorspinner.setSelection(cpos);
+                usermodel.switchDir();
+                switch(usermodel.getCurDir()){
+                    case EAST:
+                        view.setImageResource(R.drawable.1_navigation_forward);
+                        break;
+                    case WEST:
+                        view.setImageResource(R.drawable.1_navigation_back);
+                        break;
+                }
                 refresh();
             }
         });
@@ -121,8 +126,8 @@ public class MainActivity extends Activity {
             }
 
             private void apply(double amount, String description) {
-                User debtor = (User) ((Spinner) findViewById(R.id.spinner1)).getSelectedItem();
-                User creditor = (User) ((Spinner) findViewById(R.id.spinner2)).getSelectedItem();
+                User debtor = usermodel.getDebtor();
+                User creditor = usermodel.getCreditor();
 
                 dao.addDebt(creditor, debtor,
                         new Debt(amount, description, creditor, debtor));
@@ -137,8 +142,8 @@ public class MainActivity extends Activity {
     private void refresh() {
         TableLayout table = (TableLayout) findViewById(R.id.main_table);
         table.removeViews(1, table.getChildCount() - 1);
-        User debtor = (User) ((Spinner) findViewById(R.id.spinner1)).getSelectedItem();
-        User creditor = (User) ((Spinner) findViewById(R.id.spinner2)).getSelectedItem();
+        User debtor = usermodel.getDebtor();
+        User creditor = usermodel.getCreditor();
         if (debtor == null || creditor == null) {
             return;
         }
