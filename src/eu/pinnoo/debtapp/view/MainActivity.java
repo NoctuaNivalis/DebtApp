@@ -63,6 +63,26 @@ public class MainActivity extends Activity {
                 }
             }
         });
+        
+        final Button applybutton = (Button) findViewById(R.id.ok);
+        refreshbutton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                double amount = Double.parseDouble(((EditText) findViewById(R.id.amount)).getText().toString());
+                String description = ((EditText) findViewById(R.id.description)).getText().toString();
+                User debtor = (User) ((Spinner) findViewById(R.id.spinner1)).getSelectedItem();
+                User creditor = (User) ((Spinner) findViewById(R.id.spinner2)).getSelectedItem();
+                
+                dao.addDebt(creditor, debtor, new Debt(amount, description, creditor, debtor));
+            }
+        });
+        
+        final Button clearbutton = (Button) findViewById(R.id.cancel);
+        clearbutton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ((EditText) findViewById(R.id.amount)).setText("");
+                ((EditText) findViewById(R.id.description)).setText("");
+            }
+        });
     }
 
     private void addTableRow(double amount, String description, int rowNumber) {
