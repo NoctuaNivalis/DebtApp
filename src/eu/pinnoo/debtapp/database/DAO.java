@@ -6,6 +6,7 @@ import eu.pinnoo.debtapp.User;
 import eu.pinnoo.debtapp.models.PasswordModel;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -75,18 +76,47 @@ public class DAO {
     }
 
     public void addDebt(User creditor, User debtor, Debt debt) {
+        List<Debt> debtsCreditor = getDebts(debtor, creditor);
+        if (debtsCreditor == null || debtsCreditor.isEmpty()) {
+            addDebtInDatabase(creditor, debtor, debt);
+            return;
+        }
+        Collections.sort(debtsCreditor, new DebtComparator());
+
+        Iterator<Debt> it = debtsCreditor.iterator();
+        while (it.hasNext()) {
+            Debt d = it.next();
+            if(d.getAmount() == debt.getAmount()){
+                payOffDebt(d);
+                return;
+            } else if (d.getAmount() < debt.getAmount()){
+                debt.setAmount(debt.getAmount() - d.getAmount());
+                payOffDebt(d);
+                updateDebtAmount(debt);
+            } else {
+                d.setAmount(d.getAmount() - debt.getAmount());
+                updateDebtAmount(d);
+                return;
+            }
+        }
+        if (debt.getAmount() > 0) {
+            addDebtInDatabase(creditor, debtor, debt);
+        }
+    }
+
+    protected void addDebtInDatabase(User creditor, User debtor, Debt debt) {
         if (creditor.getId() == -1) {
             creditor.setId(getUserId(creditor));
         }
         if (debtor.getId() == -1) {
             debtor.setId(getUserId(debtor));
         }
-        String stmt = "INSERT INTO Debts(amount, description, creditorid, debtorid) VALUES(" + debt.getAmount() + ", \"" + debt.getDescription() + "\", " + creditor.getId() + ", " + debtor.getId()+")";
+        String stmt = "INSERT INTO Debts(amount, description, creditorid, debtorid) VALUES(" + debt.getAmount() + ", \"" + debt.getDescription() + "\", " + creditor.getId() + ", " + debtor.getId() + ")";
         Database.sendRequest(stmt, pmodel);
     }
 
     public void updateDebtAmount(Debt debt) {
-        String stmt = "UPDATE Debts SET amount="+debt.getAmount()+" WHERE debtid="+debt.getId();
+        String stmt = "UPDATE Debts SET amount=" + debt.getAmount() + " WHERE debtid=" + debt.getId();
         Database.sendRequest(stmt, pmodel);
     }
 
@@ -112,8 +142,8 @@ public class DAO {
         return users;
     }
 
-    protected void payOffDebt(Debt debt) {        
-        String stmt = "DELETE FROM Debts WHERE debtid="+debt.getId();
+    protected void payOffDebt(Debt debt) {
+        String stmt = "DELETE FROM Debts WHERE debtid=" + debt.getId();
         Database.sendRequest(stmt, pmodel);
     }
 
@@ -139,7 +169,7 @@ public class DAO {
             }
         }
 
-        for (int i = 0; i <= sumindex; i++) {
+        for (int i = 0; i < sumindex; i++) {
             payOffDebt(debts.get(i));
             sum -= debts.get(i).getAmount();
         }
