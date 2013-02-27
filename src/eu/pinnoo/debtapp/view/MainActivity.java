@@ -11,13 +11,15 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 import eu.pinnoo.debtapp.Debt;
 import eu.pinnoo.debtapp.R;
 import eu.pinnoo.debtapp.User;
@@ -28,7 +30,6 @@ import static eu.pinnoo.debtapp.models.UserModel.DIRECTION.EAST;
 import static eu.pinnoo.debtapp.models.UserModel.DIRECTION.WEST;
 import java.util.Iterator;
 import java.util.List;
-import javax.crypto.spec.OAEPParameterSpec;
 
 public class MainActivity extends Activity {
 
@@ -140,12 +141,16 @@ public class MainActivity extends Activity {
                 User debtor = usermodel.getDebtor();
                 User creditor = usermodel.getCreditor();
 
-                dao.addDebt(creditor, debtor,
-                        new Debt(amount, description, creditor, debtor));
+                if (((Switch) findViewById(R.id.switcher)).isChecked()) {
+                    dao.payOffDebt(amount, description, creditor, debtor);
+                } else {
+                    dao.addDebt(creditor, debtor,
+                            new Debt(amount, description, creditor, debtor));
+                }
+
                 refresh();
 
                 clearFields();
-
             }
         });
     }
