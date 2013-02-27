@@ -1,5 +1,9 @@
 package eu.pinnoo.debtapp.database;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.text.InputType;
+import android.widget.EditText;
 import eu.pinnoo.debtapp.models.PasswordModel;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -24,6 +28,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BufferedHeader;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -97,8 +102,9 @@ public class Database {
         }
         JSONArray arr = null;
         try {
-            if(result == "" || result == null) {
-                arr = new JSONArray();
+            if(result == "" || result.equals("null\n")) {
+                //arr = new JSONArray();
+                return null;
             } else {
                 arr = new JSONArray(result);
             }

@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         passwordmodel = new PasswordModel();
         dao = new DAO(passwordmodel);
-        askForPassword();
+        askForPassword("Password needed!");
 
         final Button refreshbutton = (Button) findViewById(R.id.undo);
         refreshbutton.setOnClickListener(new View.OnClickListener() {
@@ -93,15 +93,19 @@ public class MainActivity extends Activity {
         Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
         Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
         List<User> userlist = dao.getUsers();
+        if(userlist == null){
+            askForPassword("Something went wrong!");
+            return;
+        }
         UserArrayAdapter adapter = new UserArrayAdapter(this, userlist);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner1.setAdapter(adapter);
         spinner2.setAdapter(adapter);
     }
 
-    private void askForPassword() {
+    private void askForPassword(String title) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Password needed!");
+        alert.setTitle(title);
         alert.setMessage("Please enter the password of the database.");
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
