@@ -24,6 +24,8 @@ import eu.pinnoo.debtapp.User;
 import eu.pinnoo.debtapp.database.DAO;
 import eu.pinnoo.debtapp.models.PasswordModel;
 import eu.pinnoo.debtapp.models.UserModel;
+import static eu.pinnoo.debtapp.models.UserModel.DIRECTION.EAST;
+import static eu.pinnoo.debtapp.models.UserModel.DIRECTION.WEST;
 import java.util.Iterator;
 import java.util.List;
 import javax.crypto.spec.OAEPParameterSpec;
@@ -43,37 +45,49 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         passwordmodel = new PasswordModel();
+        usermodel = new UserModel(this);
         dao = new DAO(passwordmodel);
         askForPassword("Password needed!");
-        
-        final Spinner creditorspinner = (Spinner) findViewById(R.id.spinner1);
-        final Spinner debtorspinner = (Spinner) findViewById(R.id.spinner2);
-        
-        OnItemSelectedListener listener = new OnItemSelectedListener() {
 
+        final Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
+        final Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
+
+        OnItemSelectedListener listener = new OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> av, View view, int i, long l) {
                 refresh();
             }
 
-            public void onNothingSelected(AdapterView<?> av) {}
+            public void onNothingSelected(AdapterView<?> av) {
+            }
         };
-        
-        creditorspinner.setOnItemSelectedListener(listener);
-        debtorspinner.setOnItemSelectedListener(listener);
+
+        spinner1.setOnItemSelectedListener(listener);
+        spinner2.setOnItemSelectedListener(listener);
 
         final Button switchbutton = (Button) findViewById(R.id.btnSwitch);
+        switch (usermodel.getCurDir()) {
+            case EAST:
+                switchbutton.setBackgroundResource(R.drawable.forward);
+                break;
+            case WEST:
+                switchbutton.setBackgroundResource(R.drawable.back);
+                break;
+        }
         switchbutton.setOnClickListener(new View.OnClickListener() {
-
             public void onClick(View view) {
-                int cpos = creditorspinner.getSelectedItemPosition();
-                int dpos = debtorspinner.getSelectedItemPosition();
-                
-                creditorspinner.setSelection(dpos);
-                debtorspinner.setSelection(cpos);
+                usermodel.switchDir();
+                switch (usermodel.getCurDir()) {
+                    case EAST:
+                        switchbutton.setBackgroundResource(R.drawable.forward);
+                        break;
+                    case WEST:
+                        switchbutton.setBackgroundResource(R.drawable.back);
+                        break;
+                }
                 refresh();
             }
         });
-        
+
         final Button clearbutton = (Button) findViewById(R.id.cancel);
         clearbutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -91,13 +105,15 @@ public class MainActivity extends Activity {
                 } catch (NumberFormatException e) {
                     return;
                 }
-                
+
                 final String description = ((EditText) findViewById(R.id.description_edittext)).getText().toString();
 
                 final double amount = tmpamount;
-                
-                if(amount == 0 || description == null) return;
-                
+
+                if (amount == 0 || description == null) {
+                    return;
+                }
+
                 if (description.isEmpty()) {
                     AlertDialog.Builder alt_bld = new AlertDialog.Builder(MainActivity.this);
                     alt_bld.setMessage("Proceed without description?")
@@ -121,8 +137,8 @@ public class MainActivity extends Activity {
             }
 
             private void apply(double amount, String description) {
-                User debtor = (User) ((Spinner) findViewById(R.id.spinner1)).getSelectedItem();
-                User creditor = (User) ((Spinner) findViewById(R.id.spinner2)).getSelectedItem();
+                User debtor = usermodel.getDebtor();
+                User creditor = usermodel.getCreditor();
 
                 dao.addDebt(creditor, debtor,
                         new Debt(amount, description, creditor, debtor));
@@ -137,8 +153,8 @@ public class MainActivity extends Activity {
     private void refresh() {
         TableLayout table = (TableLayout) findViewById(R.id.main_table);
         table.removeViews(1, table.getChildCount() - 1);
-        User debtor = (User) ((Spinner) findViewById(R.id.spinner1)).getSelectedItem();
-        User creditor = (User) ((Spinner) findViewById(R.id.spinner2)).getSelectedItem();
+        User debtor = usermodel.getDebtor();
+        User creditor = usermodel.getCreditor();
         if (debtor == null || creditor == null) {
             return;
         }
@@ -148,15 +164,15 @@ public class MainActivity extends Activity {
         }
         Iterator<Debt> it = debts.iterator();
         int rowNumber = 0;
-        double amount=0;
+        double amount = 0;
         while (it.hasNext()) {
             Debt d = it.next();
             addTableRow(d.getAmount(), d.getDescription(), rowNumber);
-            amount+=d.getAmount();
+            amount += d.getAmount();
             rowNumber++;
         }
-        TextView totalamount = (TextView) this.findViewById(R.id.totalamount); 
-        totalamount.setText(amount+"");
+        TextView totalamount = (TextView) this.findViewById(R.id.totalamount);
+        totalamount.setText(amount + "");
     }
 
     private void clearFields() {
