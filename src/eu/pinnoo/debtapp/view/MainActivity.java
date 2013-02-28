@@ -2,8 +2,11 @@ package eu.pinnoo.debtapp.view;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -45,10 +48,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        checkNetworkConnection();
         passwordmodel = new PasswordModel();
         usermodel = new UserModel(this);
         dao = new DAO(passwordmodel);
-        askForPassword("Password needed!");
 
         final Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
         final Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
@@ -240,5 +243,31 @@ public class MainActivity extends Activity {
             }
         });
         alert.show();
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null;
+    }
+
+    private void showErrorDialogAndExit() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("No internet connection available!");
+        alert.setMessage("No internet connection found. The app will close now.");
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                finish();
+            }
+        });
+        alert.show();
+    }
+
+    private void checkNetworkConnection() {
+        if (!isNetworkAvailable()) {
+            showErrorDialogAndExit();
+        } else {
+            askForPassword("Password needed!");
+        }
     }
 }
