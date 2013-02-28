@@ -256,6 +256,10 @@ public class MainActivity extends Activity {
                 String value = input.getText().toString();
                 passwordmodel.setPassword(value);
                 updateItemsInUserSpinners();
+                
+                InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(input.getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
         AlertDialog dialog = alert.create();
