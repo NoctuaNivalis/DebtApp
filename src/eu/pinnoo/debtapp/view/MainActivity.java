@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnShowListener;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -48,7 +49,6 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         checkNetworkConnection();
         passwordmodel = new PasswordModel();
         usermodel = new UserModel(this);
@@ -258,7 +258,15 @@ public class MainActivity extends Activity {
                 updateItemsInUserSpinners();
             }
         });
-        alert.show();
+        AlertDialog dialog = alert.create();
+        dialog.setOnShowListener(new OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+            }
+        });
+        dialog.show();
     }
 
     private boolean isNetworkAvailable() {
