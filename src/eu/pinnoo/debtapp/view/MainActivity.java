@@ -68,13 +68,19 @@ public class MainActivity extends Activity {
         spinner1.setOnItemSelectedListener(listener);
         spinner2.setOnItemSelectedListener(listener);
 
+        final TextView debtorlabel = (TextView) findViewById(R.id.debtor);
+        final TextView creditorlabel = (TextView) findViewById(R.id.creditor);
         final Button switchbutton = (Button) findViewById(R.id.btnSwitch);
         switch (usermodel.getCurDir()) {
             case EAST:
                 switchbutton.setBackgroundResource(R.drawable.forward);
+                debtorlabel.setText("Creditor");
+                creditorlabel.setText("Debtor");
                 break;
             case WEST:
                 switchbutton.setBackgroundResource(R.drawable.back);
+                debtorlabel.setText("Debtor");
+                creditorlabel.setText("Creditor");
                 break;
         }
         switchbutton.setOnClickListener(new View.OnClickListener() {
@@ -83,9 +89,13 @@ public class MainActivity extends Activity {
                 switch (usermodel.getCurDir()) {
                     case EAST:
                         switchbutton.setBackgroundResource(R.drawable.forward);
+                        debtorlabel.setText("Creditor");
+                        creditorlabel.setText("Debtor");
                         break;
                     case WEST:
                         switchbutton.setBackgroundResource(R.drawable.back);
+                        debtorlabel.setText("Debtor");
+                        creditorlabel.setText("Creditor");
                         break;
                 }
                 refresh();

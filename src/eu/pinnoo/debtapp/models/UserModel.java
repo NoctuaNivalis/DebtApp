@@ -35,9 +35,9 @@ public class UserModel {
     public User getCreditor(){
         switch(curDir){
             case EAST:
-                return (User) ((Spinner) act.findViewById(R.id.spinner1)).getSelectedItem();
-            case WEST:
                 return (User) ((Spinner) act.findViewById(R.id.spinner2)).getSelectedItem();
+            case WEST:
+                return (User) ((Spinner) act.findViewById(R.id.spinner1)).getSelectedItem();
         }
         return null;
     }
@@ -45,9 +45,9 @@ public class UserModel {
     public User getDebtor(){
         switch(curDir){
             case EAST:
-                return (User) ((Spinner) act.findViewById(R.id.spinner2)).getSelectedItem();
-            case WEST:
                 return (User) ((Spinner) act.findViewById(R.id.spinner1)).getSelectedItem();
+            case WEST:
+                return (User) ((Spinner) act.findViewById(R.id.spinner2)).getSelectedItem();
         }
         return null;
     }
