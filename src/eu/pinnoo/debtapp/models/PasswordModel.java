@@ -6,7 +6,20 @@ package eu.pinnoo.debtapp.models;
 public class PasswordModel {
     
     private String password;
+    private boolean correct;
 
+    public PasswordModel(){
+        correct = true;
+    }
+    
+    public boolean passwordCorrect(){
+        return correct;
+    }
+    
+    public void setPasswordCorrect(boolean b){
+        correct = b;
+    }
+    
     /**
      * @return the password
      */

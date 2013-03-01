@@ -237,11 +237,12 @@ public class MainActivity extends Activity {
         Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
         List<User> userlist = dao.getUsers();
         if (userlist == null) {
-            askForPassword("Something went wrong!");
-            return;
+            passwordmodel.setPasswordCorrect(false);
+        } else {
+            passwordmodel.setPasswordCorrect(true);
+            adapter = new UserArrayAdapter(this, userlist);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
-        UserArrayAdapter adapter = new UserArrayAdapter(this, userlist);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 
     private void updateSpinnerAdapters(Spinner spinner1, Spinner spinner2, UserArrayAdapter adapter) {
@@ -324,6 +325,9 @@ public class MainActivity extends Activity {
         @Override
         protected void onPostExecute(Integer result) {
             Dialog.dismiss();
+            if (!passwordmodel.passwordCorrect()) {
+                askForPassword("Something went wrong!");
+            }
             if (adapter != null) {
                 Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
                 Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
