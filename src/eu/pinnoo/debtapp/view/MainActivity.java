@@ -2,12 +2,14 @@ package eu.pinnoo.debtapp.view;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -41,6 +43,7 @@ public class MainActivity extends Activity {
     private UserModel usermodel;
     private PasswordModel passwordmodel;
     private DAO dao;
+    private UserArrayAdapter adapter;
 
     /**
      * Called when the activity is first created.
@@ -239,6 +242,9 @@ public class MainActivity extends Activity {
         }
         UserArrayAdapter adapter = new UserArrayAdapter(this, userlist);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    }
+
+    private void updateSpinnerAdapters(Spinner spinner1, Spinner spinner2, UserArrayAdapter adapter) {
         spinner1.setAdapter(adapter);
         spinner2.setAdapter(adapter);
     }
@@ -255,8 +261,8 @@ public class MainActivity extends Activity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String value = input.getText().toString();
                 passwordmodel.setPassword(value);
-                updateItemsInUserSpinners();
-                
+                new VerifyPassword().execute();
+
                 InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(input.getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
@@ -296,6 +302,33 @@ public class MainActivity extends Activity {
             showErrorDialogAndExit();
         } else {
             askForPassword("Password needed!");
+        }
+    }
+
+    private class VerifyPassword extends AsyncTask<Void, Void, Integer> {
+
+        private ProgressDialog Dialog = new ProgressDialog(MainActivity.this);
+
+        @Override
+        protected void onPreExecute() {
+            Dialog.setMessage("Verifing password...");
+            Dialog.show();
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            updateItemsInUserSpinners();
+            return 0;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            Dialog.dismiss();
+            if (adapter != null) {
+                Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
+                Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
+                updateSpinnerAdapters(spinner1, spinner2, adapter);
+            }
         }
     }
 }
