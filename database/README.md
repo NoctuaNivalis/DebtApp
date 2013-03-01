@@ -2,7 +2,7 @@ Database implementation
 =======================
 
 This Android app uses a MySQL database to store the debts.   
-Put the file `sql.php` on your server and fill in your username and password of the MySQL database.   
+Put the file [https://github.com/wpinnoo/DebtApp/blob/master/database/sql.php](sql.php) on your server and fill in your username and password of the MySQL database.   
 The Android application can access the database by sending a POST request to `sql.php` with two parameters: 
    
            password:<password check in the php file>   
