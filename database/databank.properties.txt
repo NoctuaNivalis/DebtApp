@@ -1,0 +1,7 @@
+url = jdbc:mysql:///pinnoo.eu:3306/debtdb?zeroDateTimeBehavior=convertToNull
+
+driver = com.mysql.jdbc.Driver
+
+user = debtdbuser
+
+password = secretsdebts

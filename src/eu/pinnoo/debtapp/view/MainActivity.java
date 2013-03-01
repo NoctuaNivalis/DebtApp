@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -13,20 +14,20 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 import eu.pinnoo.debtapp.Debt;
 import eu.pinnoo.debtapp.R;
 import eu.pinnoo.debtapp.User;
@@ -305,6 +306,26 @@ public class MainActivity extends Activity {
             askForPassword("Password needed!");
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    // Handle item selection
+    switch (item.getItemId()) {
+        case R.id.splitthebill:
+            Intent intent = new Intent(this, SplitthebillActivity.class);
+            this.startActivity(intent);
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+    }
+}
 
     private class VerifyPassword extends AsyncTask<Void, Void, Integer> {
 

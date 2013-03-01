@@ -7,3 +7,4 @@ Debts and users are being stored in a MySQL database. Read [database/README.md](
 ## Contributors
 * Wouter Pinnoo
 * Stefaan Vermassen
+* Eveline Hoogstoel

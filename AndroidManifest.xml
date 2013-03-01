@@ -14,6 +14,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+		<activity android:name="eu.pinnoo.debtapp.view.SplitthebillActivity"
+                  android:label="@string/Split_the_bill">
+        </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

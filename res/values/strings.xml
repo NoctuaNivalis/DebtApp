@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Debts</string>
+    <string name="Split_the_bill">Split the bill</string>
+    <string name="checkbox1">Eveline</string>
 </resources>
