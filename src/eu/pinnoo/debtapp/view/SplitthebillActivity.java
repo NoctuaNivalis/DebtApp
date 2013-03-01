@@ -2,6 +2,8 @@ package eu.pinnoo.debtapp.view;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.Spinner;
+import android.widget.TextView;
 import eu.pinnoo.debtapp.Debt;
 import eu.pinnoo.debtapp.R;
 import eu.pinnoo.debtapp.User;
@@ -16,6 +18,12 @@ public class SplitthebillActivity extends Activity{
     public void onCreate(Bundle savendInstanceState){
         super.onCreate(savendInstanceState);
         setContentView(R.layout.split_the_bill);
+        final TextView payerlabel = (TextView) findViewById(R.id.payer);
+        payerlabel.setText("Payer"); //of in xml omdat dit toch niet verandert?
+        final TextView debtorslabel = (TextView) findViewById(R.id.debtors);
+        debtorslabel.setText("Debtors:");
+        
+        final Spinner spinner = (Spinner) findViewById(R.id.spinner3);
         
     }
     
