@@ -312,7 +312,7 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onPreExecute() {
-            Dialog.setMessage("Verifing password...");
+            Dialog.setMessage("Verifying password...");
             Dialog.show();
         }
 
