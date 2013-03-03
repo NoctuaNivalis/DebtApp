@@ -198,4 +198,9 @@ public class DAO {
     public PasswordModel getPasswordModel(){
         return pmodel;
     }
+    
+    public void addUser(User user){
+        String stmt = "INSERT INTO User(name) VALUES(" + "\"" + user.getName() + "\")";
+        Database.sendRequest(stmt, pmodel);
+    }
 }

@@ -1,9 +1,13 @@
 package eu.pinnoo.debtapp.view;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
@@ -62,12 +66,12 @@ public class UserReviewActivity extends Activity {
             return;
         }
         double amount = 0;
+        int rowNumber = 0;
         Iterator<User> userIt = userlist.iterator();
         while (userIt.hasNext()) {
             User user2 = userIt.next();
             List<Debt> debts = DAO.getInstance().getDebts(user, user2);
 
-            int rowNumber = 0;
             if (debts != null && !debts.isEmpty()) {
                 Iterator<Debt> it = debts.iterator();
                 while (it.hasNext()) {
@@ -129,5 +133,25 @@ public class UserReviewActivity extends Activity {
             label_user.setTextColor(Color.BLACK);
         }
         tl.addView(tr);
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.user_review_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.refresh:
+                refresh();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

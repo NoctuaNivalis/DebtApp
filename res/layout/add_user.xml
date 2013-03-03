@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical" >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal" >
+     <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" 
+            android:layout_weight="1"
+            android:gravity="left"
+            android:textSize="20sp"
+            android:text="Add a new user:"
+/>
+    </LinearLayout>
+    
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal" >
+        
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Name" />
+    </LinearLayout>
+    
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal" >
+  
+        <Button
+            android:id="@+id/cancelnewuser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clear" 
+            android:layout_weight="1"
+/>
+        <Button
+            android:id="@+id/confirmadduser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Apply" 
+            android:layout_weight="1"
+/>
+
+    </LinearLayout>
+    
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal" >
+     <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" 
+            android:layout_weight="1"
+            android:gravity="left"
+            android:textSize="20sp"
+            android:text="Existing users:"
+/>     
+    </LinearLayout>
+    
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/userlist"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:textSize="20sp" >
+</ListView>
+    
+</LinearLayout>
+
