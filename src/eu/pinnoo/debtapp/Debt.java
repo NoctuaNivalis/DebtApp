@@ -19,6 +19,10 @@ public class Debt {
         this.creditor = creditor;
         this.debtor = debtor;
     }
+    public Debt(double amount, String description){
+        this.amount = amount;
+        this.description = description;
+    }
     
     public Debt(double amount, String description, User creditor, User debtor){
         this(-1, amount, description, creditor, debtor);
