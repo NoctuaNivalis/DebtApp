@@ -3,11 +3,16 @@
     <item android:id="@+id/splitthebill"
           android:icon="@drawable/bill"
           android:title="@string/Split_the_bill"
-          android:showAsAction="ifRoom"
+          android:showAsAction="always"
     />
     <item android:id="@+id/userreview"
           android:icon="@drawable/user"
           android:title="@string/userreview"
-          android:showAsAction="ifRoom"
+          android:showAsAction="always"
+    />
+    <item android:id="@+id/adduser"
+          android:icon="@drawable/adduser"
+          android:title="@string/adduser"
+          android:showAsAction="always"
     />
 </menu>

@@ -325,6 +325,10 @@ public class MainActivity extends Activity {
                 intent = new Intent(this, UserReviewActivity.class);
                 this.startActivity(intent);
                 return true;
+            case R.id.adduser:
+                intent = new Intent(this, AddUserActivity.class);
+                this.startActivity(intent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
