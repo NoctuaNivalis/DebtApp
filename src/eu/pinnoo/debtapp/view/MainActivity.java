@@ -213,7 +213,7 @@ public class MainActivity extends Activity {
         TableRow tr = (TableRow) inflater.inflate(R.layout.table_row, tl, false);
         TextView label_amount = (TextView) tr.findViewById(R.id.amount);
         label_amount.setText(amount + "");
-        label_amount.setPadding(5, 5, 5, 5);
+        label_amount.setPadding(1, 5, 5, 5);
         TextView label_description = (TextView) tr.findViewById(R.id.description);;
         label_description.setText(description);
         label_description.setPadding(5, 5, 5, 5);
