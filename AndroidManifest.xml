@@ -17,6 +17,9 @@
 		<activity android:name="eu.pinnoo.debtapp.view.SplitthebillActivity"
                   android:label="@string/Split_the_bill">
         </activity>
+		<activity android:name="eu.pinnoo.debtapp.view.UserReviewActivity"
+                  android:label="@string/userreview">
+        </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

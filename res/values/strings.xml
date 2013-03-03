@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">Debts</string>
     <string name="Split_the_bill">Split the bill</string>
+    <string name="userreview">User review</string>
 </resources>

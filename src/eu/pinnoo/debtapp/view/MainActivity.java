@@ -42,7 +42,6 @@ import java.util.List;
 public class MainActivity extends Activity {
 
     private UserModel usermodel;
-    private PasswordModel passwordmodel;
     private DAO dao;
     private UserArrayAdapter adapter;
 
@@ -54,9 +53,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         checkNetworkConnection();
-        passwordmodel = new PasswordModel();
         usermodel = new UserModel(this);
-        dao = new DAO(passwordmodel);
+        dao = DAO.getInstance();
 
         final Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
         final Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
@@ -215,7 +213,7 @@ public class MainActivity extends Activity {
         TableRow tr = (TableRow) inflater.inflate(R.layout.table_row, tl, false);
         TextView label_amount = (TextView) tr.findViewById(R.id.amount);
         label_amount.setText(amount + "");
-        label_amount.setPadding(5, 5, 5, 5);
+        label_amount.setPadding(1, 5, 5, 5);
         TextView label_description = (TextView) tr.findViewById(R.id.description);;
         label_description.setText(description);
         label_description.setPadding(5, 5, 5, 5);
@@ -238,9 +236,9 @@ public class MainActivity extends Activity {
         Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
         List<User> userlist = dao.getUsers();
         if (userlist == null) {
-            passwordmodel.setPasswordCorrect(false);
+            dao.getPasswordModel().setPasswordCorrect(false);
         } else {
-            passwordmodel.setPasswordCorrect(true);
+            dao.getPasswordModel().setPasswordCorrect(true);
             adapter = new UserArrayAdapter(this, userlist);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
@@ -262,7 +260,7 @@ public class MainActivity extends Activity {
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String value = input.getText().toString();
-                passwordmodel.setPassword(value);
+                dao.getPasswordModel().setPassword(value);
                 new VerifyPassword().execute();
 
                 InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -313,19 +311,24 @@ public class MainActivity extends Activity {
         inflater.inflate(R.menu.menu, menu);
         return true;
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle item selection
-    switch (item.getItemId()) {
-        case R.id.splitthebill:
-            Intent intent = new Intent(this, SplitthebillActivity.class);
-            this.startActivity(intent);
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
+        // Handle item selection
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.splitthebill:
+                intent = new Intent(this, SplitthebillActivity.class);
+                this.startActivity(intent);
+                return true;
+            case R.id.userreview:
+                intent = new Intent(this, UserReviewActivity.class);
+                this.startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
-}
 
     private class VerifyPassword extends AsyncTask<Void, Void, Integer> {
 
@@ -333,7 +336,7 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onPreExecute() {
-            Dialog.setMessage("Verifing password...");
+            Dialog.setMessage("Verifying password...");
             Dialog.show();
         }
 
@@ -346,7 +349,7 @@ public class MainActivity extends Activity {
         @Override
         protected void onPostExecute(Integer result) {
             Dialog.dismiss();
-            if (!passwordmodel.passwordCorrect()) {
+            if (!dao.getPasswordModel().passwordCorrect()) {
                 askForPassword("Something went wrong!");
             }
             if (adapter != null) {
