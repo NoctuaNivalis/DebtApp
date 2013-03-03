@@ -62,12 +62,12 @@ public class UserReviewActivity extends Activity {
             return;
         }
         double amount = 0;
+        int rowNumber = 0;
         Iterator<User> userIt = userlist.iterator();
         while (userIt.hasNext()) {
             User user2 = userIt.next();
             List<Debt> debts = DAO.getInstance().getDebts(user, user2);
 
-            int rowNumber = 0;
             if (debts != null && !debts.isEmpty()) {
                 Iterator<Debt> it = debts.iterator();
                 while (it.hasNext()) {
