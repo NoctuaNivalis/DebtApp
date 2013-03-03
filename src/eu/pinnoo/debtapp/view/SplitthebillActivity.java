@@ -1,7 +1,11 @@
 package eu.pinnoo.debtapp.view;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Spinner;
 import android.widget.TextView;
 import eu.pinnoo.debtapp.Debt;
@@ -38,4 +42,28 @@ public class SplitthebillActivity extends Activity{
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.splitthebill_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.refresh:
+                refresh();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    
+    public void refresh(){
+        // TODO: everything that needs to refresh when there's an update in the DB, must be refreshed here
+    }
+    
 }

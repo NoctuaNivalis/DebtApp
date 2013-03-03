@@ -308,7 +308,7 @@ public class MainActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
+        inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -328,6 +328,11 @@ public class MainActivity extends Activity {
             case R.id.adduser:
                 intent = new Intent(this, AddUserActivity.class);
                 this.startActivity(intent);
+                return true;
+            case R.id.refresh:
+                updateItemsInUserSpinners();
+                updateSpinnerAdapters((Spinner) findViewById(R.id.spinner1), (Spinner) findViewById(R.id.spinner2), adapter); 
+                refresh();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
