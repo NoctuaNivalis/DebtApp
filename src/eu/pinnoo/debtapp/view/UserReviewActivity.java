@@ -51,6 +51,9 @@ public class UserReviewActivity extends Activity {
     }
 
     private void refresh() {
+        TextView totalamount = (TextView) findViewById(R.id.user_totalamount);
+        totalamount.setTextColor(Color.GREEN);
+        totalamount.setText("0");
         TableLayout table = (TableLayout) findViewById(R.id.table_user_review);
         final Spinner spinner = (Spinner) findViewById(R.id.userspinner);
         table.removeViews(1, table.getChildCount() - 1);
@@ -58,6 +61,7 @@ public class UserReviewActivity extends Activity {
         if (user == null) {
             return;
         }
+        double amount = 0;
         Iterator<User> userIt = userlist.iterator();
         while (userIt.hasNext()) {
             User user2 = userIt.next();
@@ -69,8 +73,12 @@ public class UserReviewActivity extends Activity {
                 while (it.hasNext()) {
                     Debt d = it.next();
                     addTableRow(d.getAmount(), d.getDescription(), rowNumber, Color.GREEN, user2);
+                    amount += d.getAmount();
                     rowNumber++;
                 }
+            } else {
+                totalamount.setText("0");
+                totalamount.setTextColor(Color.GREEN);
             }
 
             List<Debt> credits = DAO.getInstance().getDebts(user2, user);
@@ -80,11 +88,20 @@ public class UserReviewActivity extends Activity {
                 while (it2.hasNext()) {
                     Debt d = it2.next();
                     addTableRow(d.getAmount(), d.getDescription(), rowNumber, Color.RED, user2);
+                    amount -= d.getAmount();
                     rowNumber++;
                 }
+            } else {
+                totalamount.setText("0");
+                totalamount.setTextColor(Color.GREEN);
             }
         }
-
+        if (amount >= 0) {
+            totalamount.setTextColor(Color.GREEN);
+        } else {
+            totalamount.setTextColor(Color.RED);
+        }
+        totalamount.setText(Math.abs(amount) + "");
     }
 
     private void addTableRow(double amount, String description, int rowNumber, int color, User u) {
