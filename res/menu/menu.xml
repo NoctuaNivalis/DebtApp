@@ -5,4 +5,9 @@
           android:title="@string/Split_the_bill"
           android:showAsAction="ifRoom"
     />
+    <item android:id="@+id/userreview"
+          android:icon="@drawable/user"
+          android:title="@string/userreview"
+          android:showAsAction="ifRoom"
+    />
 </menu>

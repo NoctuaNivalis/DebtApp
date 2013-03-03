@@ -313,19 +313,24 @@ public class MainActivity extends Activity {
         inflater.inflate(R.menu.menu, menu);
         return true;
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle item selection
-    switch (item.getItemId()) {
-        case R.id.splitthebill:
-            Intent intent = new Intent(this, SplitthebillActivity.class);
-            this.startActivity(intent);
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
+        // Handle item selection
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.splitthebill:
+                intent = new Intent(this, SplitthebillActivity.class);
+                this.startActivity(intent);
+                return true;
+            case R.id.userreview:
+                intent = new Intent(this, UserReviewActivity.class);
+                this.startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
-}
 
     private class VerifyPassword extends AsyncTask<Void, Void, Integer> {
 
