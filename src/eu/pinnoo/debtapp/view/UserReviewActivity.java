@@ -68,7 +68,7 @@ public class UserReviewActivity extends Activity {
                 Iterator<Debt> it = debts.iterator();
                 while (it.hasNext()) {
                     Debt d = it.next();
-                    addTableRow(d.getAmount(), d.getDescription(), rowNumber, Color.GREEN);
+                    addTableRow(d.getAmount(), d.getDescription(), rowNumber, Color.GREEN, user2);
                     rowNumber++;
                 }
             }
@@ -79,7 +79,7 @@ public class UserReviewActivity extends Activity {
                 Iterator<Debt> it2 = credits.iterator();
                 while (it2.hasNext()) {
                     Debt d = it2.next();
-                    addTableRow(d.getAmount(), d.getDescription(), rowNumber, Color.RED);
+                    addTableRow(d.getAmount(), d.getDescription(), rowNumber, Color.RED, user2);
                     rowNumber++;
                 }
             }
@@ -87,25 +87,29 @@ public class UserReviewActivity extends Activity {
 
     }
 
-    private void addTableRow(double amount, String description, int rowNumber, int color) {
+    private void addTableRow(double amount, String description, int rowNumber, int color, User u) {
         LayoutInflater inflater = getLayoutInflater();
         TableLayout tl = (TableLayout) findViewById(R.id.table_user_review);
-        TableRow tr = (TableRow) inflater.inflate(R.layout.table_row, tl, false);
+        TableRow tr = (TableRow) inflater.inflate(R.layout.review_table_row, tl, false);
         TextView label_amount = (TextView) tr.findViewById(R.id.amount);
         label_amount.setText(amount + "");
-        label_amount.setPadding(5, 5, 5, 5);
-        TextView label_description = (TextView) tr.findViewById(R.id.description);;
+        label_amount.setPadding(0, 5, 5, 5);
+        TextView label_description = (TextView) tr.findViewById(R.id.description);
         label_description.setText(description);
         label_description.setPadding(5, 5, 5, 5);
+        TextView label_user = (TextView) tr.findViewById(R.id.user);
+        label_user.setText(u.getName());
+        label_user.setPadding(0, 5, 5, 5);
         if (rowNumber % 2 == 0) {
             tr.setBackgroundColor(Color.GRAY);
             label_amount.setTextColor(color);
             label_description.setTextColor(Color.BLACK);
-
+            label_user.setTextColor(Color.BLACK);
         } else {
             tr.setBackgroundColor(Color.LTGRAY);
             label_amount.setTextColor(color);
             label_description.setTextColor(Color.BLACK);
+            label_user.setTextColor(Color.BLACK);
         }
         tl.addView(tr);
     }
