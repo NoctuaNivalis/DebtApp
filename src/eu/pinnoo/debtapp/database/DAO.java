@@ -23,9 +23,17 @@ public class DAO {
     private Database db;
     private PasswordModel pmodel;
     private JSONArray jsonarray;
+    private static DAO instance = null;
 
-    public DAO(PasswordModel pmodel) {
+    protected DAO(PasswordModel pmodel) {
         this.pmodel = pmodel;
+    }
+    
+    public static DAO getInstance(){
+        if(instance == null){
+            instance = new DAO(new PasswordModel());
+        }
+        return instance;
     }
 
     public List<Debt> getDebts(User creditor, User debtor) {
@@ -185,5 +193,9 @@ public class DAO {
         } else {
             addDebt(debtor, creditor, new Debt((amount - sum), description, debtor, creditor));
         }
+    }
+    
+    public PasswordModel getPasswordModel(){
+        return pmodel;
     }
 }
