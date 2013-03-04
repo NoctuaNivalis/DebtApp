@@ -26,37 +26,58 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
+                  android:orientation="horizontal" >
+        <EditText
+            android:id="@+id/stb_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Description" />
+    
+        <EditText
+            android:id="@+id/stb_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:inputType="numberDecimal"
+            android:hint="Amount" />
+    </LinearLayout>
+    
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
                   android:orientation="vertical" 
+                  android:layout_weight="1"
                   android:padding="5dip"
-                  android:id="@+id/debtorslist"
     >
         <TextView
             android:id="@+id/debtors"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" 
             android:textSize="20sp"
         />
+        <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:padding="5dip"
+                  android:id="@+id/debtorslist"
+        >
+        </ListView>
     </LinearLayout>
     
-   
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
-                  android:orientation="horizontal" 
-                  android:layout_alignParentBottom="true"
+                  android:orientation="vertical" 
+                  android:layout_weight="1"
                   android:padding="5dip"
     >
-    
-     <Button
+        <Button
             android:id="@+id/okbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ok!"
-            android:layout_weight="1"
             android:gravity="center"
-/>
-    
-</LinearLayout>
-
+        />
+    </LinearLayout>
 </LinearLayout>
