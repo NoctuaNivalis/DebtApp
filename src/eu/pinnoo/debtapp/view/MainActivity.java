@@ -12,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,10 +30,10 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import eu.pinnoo.debtapp.Debt;
+import eu.pinnoo.debtapp.DecimalDigitsInputFilter;
 import eu.pinnoo.debtapp.R;
 import eu.pinnoo.debtapp.User;
 import eu.pinnoo.debtapp.database.DAO;
-import eu.pinnoo.debtapp.models.PasswordModel;
 import eu.pinnoo.debtapp.models.UserModel;
 import static eu.pinnoo.debtapp.models.UserModel.DIRECTION.EAST;
 import static eu.pinnoo.debtapp.models.UserModel.DIRECTION.WEST;
@@ -55,7 +56,9 @@ public class MainActivity extends Activity {
         checkNetworkConnection();
         usermodel = new UserModel(this);
         dao = DAO.getInstance();
-
+        EditText amountEditText = (EditText) findViewById(R.id.amount_edittext);
+        amountEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter()});
+        
         final Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
         final Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
 
@@ -253,6 +256,7 @@ public class MainActivity extends Activity {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle(title);
         alert.setMessage("Please enter the password of the database.");
+        alert.setCancelable(false);
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         input.setSelection(input.getText().length());
