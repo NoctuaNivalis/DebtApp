@@ -3,6 +3,7 @@ package eu.pinnoo.debtapp.database;
 import eu.pinnoo.debtapp.Debt;
 import eu.pinnoo.debtapp.DebtComparator;
 import eu.pinnoo.debtapp.User;
+import eu.pinnoo.debtapp.UserComparator;
 import eu.pinnoo.debtapp.models.PasswordModel;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -147,6 +148,7 @@ public class DAO {
                 System.err.println(e);
             }
         }
+        Collections.sort(users, new UserComparator());
         return users;
     }
 

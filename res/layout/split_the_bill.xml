@@ -23,46 +23,40 @@
         />
     </LinearLayout>
     
-    <TextView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical" 
+                  android:padding="5dip"
+                  android:id="@+id/debtorslist"
+    >
+        <TextView
             android:id="@+id/debtors"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1" 
             android:textSize="20sp"
         />
-    <CheckBox android:id="@+id/checkbox1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Wouter"
-    />
-    <CheckBox android:id="@+id/checkbox2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Stefaan"
-    />
-    <CheckBox android:id="@+id/checkbox3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tituoan"
-    />
-    <CheckBox android:id="@+id/checkbox4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Eveline"
-    />
-    <CheckBox android:id="@+id/checkbox5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Caroline"
-    />
+    </LinearLayout>
+    
+   
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal" 
+                  android:layout_alignParentBottom="true"
+                  android:padding="5dip"
+    >
     
      <Button
             android:id="@+id/okbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ok!" 
+            android:text="Ok!"
             android:layout_weight="1"
-            android:gravity="right"
+            android:gravity="center"
 />
     
+</LinearLayout>
+
 </LinearLayout>

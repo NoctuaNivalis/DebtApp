@@ -6,17 +6,23 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import eu.pinnoo.debtapp.Debt;
 import eu.pinnoo.debtapp.R;
 import eu.pinnoo.debtapp.User;
+import eu.pinnoo.debtapp.database.DAO;
+import java.util.List;
 
 /**
  *
  * @author Eveline Hoogstoel <eveline.hoogstoel@ugent.be>
  */
 public class SplitthebillActivity extends Activity{
+    
+    private List<User> userlist;
     
     @Override
     public void onCreate(Bundle savendInstanceState){
@@ -28,7 +34,18 @@ public class SplitthebillActivity extends Activity{
         debtorslabel.setText("Debtors:");
         
         final Spinner spinner = (Spinner) findViewById(R.id.spinner3);
+        userlist = DAO.getInstance().getUsers();
         
+        UserArrayAdapter adapter = new UserArrayAdapter(this, userlist);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+            
+        final LinearLayout ll = (LinearLayout) findViewById(R.id.debtorslist);
+        for(User user: userlist){
+            CheckBox ch = new CheckBox(this);
+            ch.setText(user.getName());
+            ll.addView(ch);
+        }
     }
     
     public void splitTheBill(Debt debt, User payer, User[] users){
