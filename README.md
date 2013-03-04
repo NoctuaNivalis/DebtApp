@@ -10,4 +10,4 @@ Debts and users are being stored in a MySQL database. Read [database/README.md](
 * Eveline Hoogstoel
 
 ## Screenshots
-![Screenshot](https://raw.github.com/wpinnoo/DebtApp/master/screenshot.png "Screenshot")
+![Screenshot](https://raw.github.com/wpinnoo/DebtApp/master/images/screenshot.png "Screenshot")
