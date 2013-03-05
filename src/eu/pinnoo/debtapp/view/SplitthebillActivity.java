@@ -48,6 +48,7 @@ public class SplitthebillActivity extends Activity {
         final ListView lv = (ListView) findViewById(R.id.debtorslist);
         UserArrayAdapter listadapter = new UserArrayAdapter(this, userlist);
         lv.setAdapter(listadapter);
+        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         
         final Button okButton = (Button) findViewById(R.id.okbutton);
         okButton.setOnClickListener(new View.OnClickListener() {
@@ -116,18 +117,14 @@ public class SplitthebillActivity extends Activity {
         UserArrayAdapter adapter = new UserArrayAdapter(this, userlist);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-<<<<<<< HEAD
-
         final ListView lv = (ListView) findViewById(R.id.debtorslist);
         UserArrayAdapter listadapter = new UserArrayAdapter(this, userlist);
         lv.setAdapter(listadapter);
-=======
     }
     
     public void clearFields(){
         ((EditText) findViewById(R.id.stb_desc)).setText("");
         ((EditText) findViewById(R.id.stb_amount)).setText("");
->>>>>>> branch 'split_the_bill' of https://github.com/wpinnoo/DebtApp.git
     }
 
     public String[] getUserList() {
