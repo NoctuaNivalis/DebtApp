@@ -1,15 +1,22 @@
 package eu.pinnoo.debtapp.view;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import eu.pinnoo.debtapp.Debt;
 import eu.pinnoo.debtapp.R;
@@ -24,6 +31,7 @@ import java.util.List;
 public class SplitthebillActivity extends Activity {
 
     private List<User> userlist;
+    private Spinner spinner;
 
     @Override
     public void onCreate(Bundle savendInstanceState) {
@@ -34,15 +42,84 @@ public class SplitthebillActivity extends Activity {
         final TextView debtorslabel = (TextView) findViewById(R.id.debtors);
         debtorslabel.setText("Debtors:");
 
-        final Spinner spinner = (Spinner) findViewById(R.id.spinner3);
+        spinner = (Spinner) findViewById(R.id.spinner3);
+        updateSpinnerItems();
+
+        final ListView lv = (ListView) findViewById(R.id.debtorslist);
+        lv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, android.R.id.text1, getUserList()));
+        
+        final Button okButton = (Button) findViewById(R.id.okbutton);
+        okButton.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                boolean valid = true;
+                double tmpamount = 0;
+                try {
+                    tmpamount = Double.parseDouble((((EditText) findViewById(R.id.stb_amount)).getText().toString()));
+                } catch (NumberFormatException e) {
+                    return;
+                }
+
+                final String description = ((EditText) findViewById(R.id.stb_desc)).getText().toString();
+
+                final double amount = tmpamount;
+
+                if (amount == 0 || description == null) {
+                    return;
+                }
+
+                if (description.isEmpty()) {
+                    AlertDialog.Builder alt_bld = new AlertDialog.Builder(SplitthebillActivity.this);
+                    alt_bld.setMessage("Proceed without description?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            apply(amount, description);
+                        }
+                    })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alert = alt_bld.create();
+                    alert.setTitle("Empty description!");
+                    alert.show();
+                } else {
+                    apply(amount, description);
+                }
+            }
+
+            private void apply(double amount, String description) {
+                User payer = (User) spinner.getSelectedItem();
+                
+                User[] users = null;//TODO
+                splitTheBill(new Debt(amount, description), payer, users);
+                
+                refresh();
+
+                clearFields();
+
+                InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        });
+    }
+    
+    public void updateSpinnerItems(){
+        
         userlist = DAO.getInstance().getUsers();
 
         UserArrayAdapter adapter = new UserArrayAdapter(this, userlist);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-
-        final ListView lv = (ListView) findViewById(R.id.debtorslist);
-        lv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, android.R.id.text1, getUserList()));
+    }
+    
+    public void clearFields(){
+        ((EditText) findViewById(R.id.stb_desc)).setText("");
+        ((EditText) findViewById(R.id.stb_amount)).setText("");
     }
 
     public String[] getUserList() {
@@ -55,11 +132,10 @@ public class SplitthebillActivity extends Activity {
 
     public void splitTheBill(Debt debt, User payer, User[] users) {
         int debtors = users.length;
-        Debt splited = new Debt(debt.getAmount() / debtors, debt.getDescription());
+        Debt splitted = new Debt(debt.getAmount() / debtors, debt.getDescription());
         for (int i = 0; i < users.length; i++) {
             if (!users[i].equals(payer)) {
-                //toevoegen aan DB (TODO)
-                //dao.addDebt(payer,users[i],splited);
+                DAO.getInstance().addDebt(payer,users[i],splitted);
             }
         }
     }
@@ -85,6 +161,7 @@ public class SplitthebillActivity extends Activity {
     }
 
     public void refresh() {
-        // TODO: everything that needs to refresh when there's an update in the DB, must be refreshed here
+        updateSpinnerItems();
+        clearFields();
     }
 }
