@@ -242,7 +242,7 @@ public class MainActivity extends Activity {
             dao.getPasswordModel().setPasswordCorrect(false);
         } else {
             dao.getPasswordModel().setPasswordCorrect(true);
-            adapter = new UserArrayAdapter(this, userlist);
+            adapter = new UserArrayAdapter(this, userlist, android.R.layout.simple_list_item_1);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
     }
