@@ -121,7 +121,7 @@ public class MainActivity extends Activity {
                 boolean valid = true;
                 int tmpamount = 0;
                 try {
-                    tmpamount = Integer.parseInt((((EditText) findViewById(R.id.amount_edittext)).getText().toString()));
+                    tmpamount = (int) (100 * Double.parseDouble((((EditText) findViewById(R.id.amount_edittext)).getText().toString())));
                 } catch (NumberFormatException e) {
                     return;
                 }
@@ -198,7 +198,7 @@ public class MainActivity extends Activity {
             rowNumber++;
         }
         TextView totalamount = (TextView) this.findViewById(R.id.totalamount);
-        totalamount.setText(amount + "");
+        totalamount.setText(((double) amount)/100 + "");
     }
 
     private void clearFields() {
@@ -211,7 +211,7 @@ public class MainActivity extends Activity {
         TableLayout tl = (TableLayout) findViewById(R.id.main_table);
         TableRow tr = (TableRow) inflater.inflate(R.layout.table_row, tl, false);
         TextView label_amount = (TextView) tr.findViewById(R.id.amount);
-        label_amount.setText(amount + "");
+        label_amount.setText(((double) amount)/100 + "");
         label_amount.setPadding(1, 5, 5, 5);
         TextView label_description = (TextView) tr.findViewById(R.id.description);;
         label_description.setText(description);

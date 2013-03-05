@@ -105,7 +105,7 @@ public class UserReviewActivity extends Activity {
         } else {
             totalamount.setTextColor(Color.RED);
         }
-        totalamount.setText(Math.abs(amount) + "");
+        totalamount.setText(Math.abs(((double) amount)/100) + "");
     }
 
     private void addTableRow(int amount, String description, int rowNumber, int color, User u) {
@@ -113,7 +113,7 @@ public class UserReviewActivity extends Activity {
         TableLayout tl = (TableLayout) findViewById(R.id.table_user_review);
         TableRow tr = (TableRow) inflater.inflate(R.layout.review_table_row, tl, false);
         TextView label_amount = (TextView) tr.findViewById(R.id.amount);
-        label_amount.setText(amount + "");
+        label_amount.setText(((double) amount)/100 + "");
         label_amount.setPadding(0, 5, 5, 5);
         TextView label_description = (TextView) tr.findViewById(R.id.description);
         label_description.setText(description);

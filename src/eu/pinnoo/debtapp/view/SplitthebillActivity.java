@@ -56,7 +56,7 @@ public class SplitthebillActivity extends Activity {
             public void onClick(View v) {
                 int tmpamount = 0;
                 try {
-                    tmpamount = Integer.parseInt((((EditText) findViewById(R.id.stb_amount)).getText().toString()));
+                    tmpamount = (int) (100 * Double.parseDouble((((EditText) findViewById(R.id.stb_amount)).getText().toString())));
                 } catch (NumberFormatException e) {
                     return;
                 }
