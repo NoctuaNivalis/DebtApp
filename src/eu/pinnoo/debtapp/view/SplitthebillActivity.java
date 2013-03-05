@@ -22,6 +22,7 @@ import eu.pinnoo.debtapp.Debt;
 import eu.pinnoo.debtapp.R;
 import eu.pinnoo.debtapp.User;
 import eu.pinnoo.debtapp.database.DAO;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,16 +44,12 @@ public class SplitthebillActivity extends Activity {
         debtorslabel.setText("Debtors:");
 
         spinner = (Spinner) findViewById(R.id.spinner3);
-        updateSpinnerItems();
 
         final ListView lv = (ListView) findViewById(R.id.debtorslist);
-        UserArrayAdapter listadapter = new UserArrayAdapter(this, userlist);
-        lv.setAdapter(listadapter);
-        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        
+        updateSpinnerItems();
+
         final Button okButton = (Button) findViewById(R.id.okbutton);
         okButton.setOnClickListener(new View.OnClickListener() {
-
             public void onClick(View v) {
                 boolean valid = true;
                 double tmpamount = 0;
@@ -94,10 +91,15 @@ public class SplitthebillActivity extends Activity {
 
             private void apply(double amount, String description) {
                 User payer = (User) spinner.getSelectedItem();
-                
-                User[] users = null;//TODO
-                splitTheBill(new Debt(amount, description), payer, users);
-                
+                ArrayList<User> selectedusers = new ArrayList<User>();
+                UserArrayAdapter userlistadapter = (UserArrayAdapter) lv.getAdapter();
+                for(int i=0; i<userlist.size(); i++){
+                    if(userlistadapter.isChecked(i)){
+                        selectedusers.add((User)lv.getItemAtPosition(i));
+                    }
+                }
+                splitTheBill(new Debt(amount, description), payer, selectedusers);
+
                 refresh();
 
                 clearFields();
@@ -109,20 +111,21 @@ public class SplitthebillActivity extends Activity {
             }
         });
     }
-    
-    public void updateSpinnerItems(){
-        
+
+    public void updateSpinnerItems() {
+
         userlist = DAO.getInstance().getUsers();
 
-        UserArrayAdapter adapter = new UserArrayAdapter(this, userlist);
+        UserArrayAdapter adapter = new UserArrayAdapter(this, userlist, android.R.layout.simple_list_item_1);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         final ListView lv = (ListView) findViewById(R.id.debtorslist);
-        UserArrayAdapter listadapter = new UserArrayAdapter(this, userlist);
+        UserArrayAdapter listadapter = new UserArrayAdapter(this, userlist, android.R.layout.simple_list_item_multiple_choice);
         lv.setAdapter(listadapter);
+        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     }
-    
-    public void clearFields(){
+
+    public void clearFields() {
         ((EditText) findViewById(R.id.stb_desc)).setText("");
         ((EditText) findViewById(R.id.stb_amount)).setText("");
     }
@@ -135,12 +138,12 @@ public class SplitthebillActivity extends Activity {
         return list;
     }
 
-    public void splitTheBill(Debt debt, User payer, User[] users) {
-        int debtors = users.length;
+    public void splitTheBill(Debt debt, User payer, ArrayList<User> users) {
+        int debtors = users.size();
         Debt splitted = new Debt(debt.getAmount() / debtors, debt.getDescription());
-        for (int i = 0; i < users.length; i++) {
-            if (!users[i].equals(payer)) {
-                DAO.getInstance().addDebt(payer,users[i],splitted);
+        for (int i = 0; i < users.size(); i++) {
+            if (!users.get(i).equals(payer)) {
+                DAO.getInstance().addDebt(payer, users.get(i), splitted);
             }
         }
     }
