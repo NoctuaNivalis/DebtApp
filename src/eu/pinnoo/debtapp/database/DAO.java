@@ -49,7 +49,7 @@ public class DAO {
             JSONObject obj = null;
             try {
                 obj = array.getJSONObject(i);
-                debts.add(new Debt(obj.getInt("debtid"), obj.getDouble("amount"), obj.getString("description"), creditor, debtor));
+                debts.add(new Debt(obj.getInt("debtid"), obj.getInt("amount"), obj.getString("description"), creditor, debtor));
             } catch (JSONException ex) {
                 Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
             } catch (NullPointerException e) {
@@ -157,7 +157,7 @@ public class DAO {
         Database.sendRequest(stmt, pmodel);
     }
 
-    public void payOffDebt(double amount, String description, User creditor, User debtor) {
+    public void payOffDebt(int amount, String description, User creditor, User debtor) {
         List<Debt> debts = getDebts(creditor, debtor);
         Collections.sort(debts, new DebtComparator());
 

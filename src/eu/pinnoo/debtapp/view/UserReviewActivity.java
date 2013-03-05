@@ -65,7 +65,7 @@ public class UserReviewActivity extends Activity {
         if (user == null) {
             return;
         }
-        double amount = 0;
+        int amount = 0;
         int rowNumber = 0;
         Iterator<User> userIt = userlist.iterator();
         while (userIt.hasNext()) {
@@ -108,7 +108,7 @@ public class UserReviewActivity extends Activity {
         totalamount.setText(Math.abs(amount) + "");
     }
 
-    private void addTableRow(double amount, String description, int rowNumber, int color, User u) {
+    private void addTableRow(int amount, String description, int rowNumber, int color, User u) {
         LayoutInflater inflater = getLayoutInflater();
         TableLayout tl = (TableLayout) findViewById(R.id.table_user_review);
         TableRow tr = (TableRow) inflater.inflate(R.layout.review_table_row, tl, false);

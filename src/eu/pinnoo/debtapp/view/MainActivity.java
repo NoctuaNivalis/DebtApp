@@ -119,16 +119,16 @@ public class MainActivity extends Activity {
         applybutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 boolean valid = true;
-                double tmpamount = 0;
+                int tmpamount = 0;
                 try {
-                    tmpamount = Double.parseDouble((((EditText) findViewById(R.id.amount_edittext)).getText().toString()));
+                    tmpamount = Integer.parseInt((((EditText) findViewById(R.id.amount_edittext)).getText().toString()));
                 } catch (NumberFormatException e) {
                     return;
                 }
 
                 final String description = ((EditText) findViewById(R.id.description_edittext)).getText().toString();
 
-                final double amount = tmpamount;
+                final int amount = tmpamount;
 
                 if (amount == 0 || description == null) {
                     return;
@@ -156,7 +156,7 @@ public class MainActivity extends Activity {
                 }
             }
 
-            private void apply(double amount, String description) {
+            private void apply(int amount, String description) {
                 User debtor = usermodel.getDebtor();
                 User creditor = usermodel.getCreditor();
 
@@ -190,7 +190,7 @@ public class MainActivity extends Activity {
         }
         Iterator<Debt> it = debts.iterator();
         int rowNumber = 0;
-        double amount = 0;
+        int amount = 0;
         while (it.hasNext()) {
             Debt d = it.next();
             addTableRow(d.getAmount(), d.getDescription(), rowNumber);
@@ -206,7 +206,7 @@ public class MainActivity extends Activity {
         ((EditText) findViewById(R.id.description_edittext)).setText("");
     }
 
-    private void addTableRow(double amount, String description, int rowNumber) {
+    private void addTableRow(int amount, String description, int rowNumber) {
         LayoutInflater inflater = getLayoutInflater();
         TableLayout tl = (TableLayout) findViewById(R.id.main_table);
         TableRow tr = (TableRow) inflater.inflate(R.layout.table_row, tl, false);

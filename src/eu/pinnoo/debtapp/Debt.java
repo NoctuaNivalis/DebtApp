@@ -7,24 +7,24 @@ package eu.pinnoo.debtapp;
 public class Debt {
     
     private int id;
-    private double amount;
+    private int amount;
     private String description;
     private User creditor;
     private User debtor;
     
-    public Debt(int id, double amount, String description, User creditor, User debtor){
+    public Debt(int id, int amount, String description, User creditor, User debtor){
         this.id = id;
         this.amount = amount;
         this.description = description;
         this.creditor = creditor;
         this.debtor = debtor;
     }
-    public Debt(double amount, String description){
+    public Debt(int amount, String description){
         this.amount = amount;
         this.description = description;
     }
     
-    public Debt(double amount, String description, User creditor, User debtor){
+    public Debt(int amount, String description, User creditor, User debtor){
         this(-1, amount, description, creditor, debtor);
     }
     
@@ -32,7 +32,7 @@ public class Debt {
         return id;
     }
     
-    public double getAmount(){
+    public int getAmount(){
         return amount;
     }
     
@@ -48,7 +48,7 @@ public class Debt {
         return description;
     }
     
-    public void setAmount(double amount){
+    public void setAmount(int amount){
         this.amount = amount;
     }
 }

@@ -65,7 +65,7 @@ public class Database {
         InputStream inp = null;
 
         HttpClient client = new DefaultHttpClient();
-        HttpPost post = new HttpPost("http://pinnoo.eu:9093/debtdb/sql.php");
+        HttpPost post = new HttpPost("http://pinnoo.eu:9093/debtdb/testing.php");
         try {
             post.setEntity(new UrlEncodedFormEntity(pairs));
         } catch (UnsupportedEncodingException ex) {

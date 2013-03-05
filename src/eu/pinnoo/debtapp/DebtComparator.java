@@ -9,7 +9,7 @@ import java.util.Comparator;
 public class DebtComparator implements Comparator<Debt> {
 
     public int compare(Debt lhs, Debt rhs) {
-        return (int) (lhs.getAmount() - rhs.getAmount());
+        return lhs.getAmount() - rhs.getAmount();
     }
     
 }

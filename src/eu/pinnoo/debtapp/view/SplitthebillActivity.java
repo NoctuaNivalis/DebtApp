@@ -54,15 +54,15 @@ public class SplitthebillActivity extends Activity {
         final Button okButton = (Button) findViewById(R.id.okbutton);
         okButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                double tmpamount = 0;
+                int tmpamount = 0;
                 try {
-                    tmpamount = Double.parseDouble((((EditText) findViewById(R.id.stb_amount)).getText().toString()));
+                    tmpamount = Integer.parseInt((((EditText) findViewById(R.id.stb_amount)).getText().toString()));
                 } catch (NumberFormatException e) {
                     return;
                 }
 
                 final String description = ((EditText) findViewById(R.id.stb_desc)).getText().toString();
-                final double amount = tmpamount;
+                final int amount = tmpamount;
                 if (amount == 0 || description == null) {
                     return;
                 }
@@ -88,7 +88,7 @@ public class SplitthebillActivity extends Activity {
                 }
             }
 
-            private void apply(double amount, String description) {
+            private void apply(int amount, String description) {
                 User payer = (User) spinner.getSelectedItem();
                 ArrayList<User> selectedusers = new ArrayList<User>();
                 UserArrayAdapter userlistadapter = (UserArrayAdapter) lv.getAdapter();
