@@ -46,7 +46,8 @@ public class SplitthebillActivity extends Activity {
         updateSpinnerItems();
 
         final ListView lv = (ListView) findViewById(R.id.debtorslist);
-        lv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, android.R.id.text1, getUserList()));
+        UserArrayAdapter listadapter = new UserArrayAdapter(this, userlist);
+        lv.setAdapter(listadapter);
         
         final Button okButton = (Button) findViewById(R.id.okbutton);
         okButton.setOnClickListener(new View.OnClickListener() {
