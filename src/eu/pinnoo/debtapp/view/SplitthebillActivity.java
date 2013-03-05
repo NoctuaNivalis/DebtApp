@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import eu.pinnoo.debtapp.Debt;
 import eu.pinnoo.debtapp.DecimalDigitsInputFilter;
 import eu.pinnoo.debtapp.R;
@@ -28,7 +27,7 @@ import java.util.List;
 
 /**
  *
- * @author Eveline Hoogstoel <eveline.hoogstoel@ugent.be>
+ * @author see /AUTHORS
  */
 public class SplitthebillActivity extends Activity {
 
@@ -41,17 +40,16 @@ public class SplitthebillActivity extends Activity {
         super.onCreate(savendInstanceState);
         setContentView(R.layout.split_the_bill);
         EditText amountEditText = (EditText) findViewById(R.id.stb_amount);
-        amountEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter()});
-        spinner = (Spinner) findViewById(R.id.spinner3);
-        final ListView lv = (ListView) findViewById(R.id.debtorslist);
+        amountEditText.setFilters(new InputFilter[]{new DecimalDigitsInputFilter()});
+        spinner = (Spinner) findViewById(R.id.stb_payer_spinner);
+        final ListView lv = (ListView) findViewById(R.id.stb_debtorslist);
         update();
-        lv.setOnItemClickListener(new OnItemClickListener(){
-
+        lv.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> av, View view, int position, long l) {
                 listadapter.toggle(position);
-            }            
+            }
         });
-        final Button okButton = (Button) findViewById(R.id.okbutton);
+        final Button okButton = (Button) findViewById(R.id.stb_apply);
         okButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 int tmpamount = 0;
@@ -92,9 +90,9 @@ public class SplitthebillActivity extends Activity {
                 User payer = (User) spinner.getSelectedItem();
                 ArrayList<User> selectedusers = new ArrayList<User>();
                 UserArrayAdapter userlistadapter = (UserArrayAdapter) lv.getAdapter();
-                for(int i=0; i<userlist.size(); i++){
-                    if(userlistadapter.isChecked(i)){
-                        selectedusers.add((User)lv.getItemAtPosition(i));
+                for (int i = 0; i < userlist.size(); i++) {
+                    if (userlistadapter.isChecked(i)) {
+                        selectedusers.add((User) lv.getItemAtPosition(i));
                     }
                 }
                 splitTheBill(new Debt(amount, description), payer, selectedusers);
@@ -112,7 +110,7 @@ public class SplitthebillActivity extends Activity {
         UserArrayAdapter adapter = new UserArrayAdapter(this, userlist, android.R.layout.simple_list_item_1);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        final ListView lv = (ListView) findViewById(R.id.debtorslist);
+        final ListView lv = (ListView) findViewById(R.id.stb_debtorslist);
         listadapter = new UserArrayAdapter(this, userlist, android.R.layout.simple_list_item_multiple_choice);
         lv.setAdapter(listadapter);
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);

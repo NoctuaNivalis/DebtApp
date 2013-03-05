@@ -8,56 +8,49 @@
                   android:layout_height="wrap_content"
                   android:orientation="horizontal" >
         <TextView
-            android:id="@+id/userlabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" 
             android:textSize="20sp"
             android:text="User:"
         />
-        
         <Spinner
-            android:id="@+id/userspinner"
+            android:id="@+id/review_userspinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" 
         />
-    
     </LinearLayout>
     
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
                  android:stretchColumns="0,1"
-                 android:id="@+id/header_user_review" 
                  android:layout_height="wrap_content" 
                  android:layout_width="match_parent" 
-                 android:background="@android:color/white"
-    >
+                 android:background="@android:color/white" >
         <TableRow
             android:layout_width="fill_parent"
-            android:padding="5dip"
-        >
-                
+            android:padding="5dip" >
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:text="Description"
                 android:textColor="@android:color/black"
-                />
+            />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:text="Amount"
                 android:textColor="@android:color/black"
-                />
+            />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:text="To/from"
                 android:textColor="@android:color/black"
-                />
+            />
         </TableRow>
     </TableLayout>
  
@@ -66,20 +59,15 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content" 
                 android:layout_width="fill_parent">
-
         <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
                      android:stretchColumns="0,1"
-                     android:id="@+id/table_user_review" 
+                     android:id="@+id/review_table" 
                      android:layout_weight="1" 
                      android:layout_height="wrap_content" 
                      android:layout_width="match_parent" 
-                     android:background="@android:color/white"
-        >
+                     android:background="@android:color/white" >
             <TableRow
-                android:layout_width="fill_parent"
-                
-            >
-                
+                android:layout_width="fill_parent" >
             </TableRow>
         </TableLayout>
     </ScrollView>
@@ -89,26 +77,22 @@
                   android:layout_height="wrap_content"
                   android:orientation="horizontal" 
                   android:layout_alignParentBottom="true"
-                  android:padding="5dip"
-    >
-    
+                  android:padding="5dip" >
         <TextView
-            android:id="@+id/user_total"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="5" 
             android:textSize="20sp"
-            android:text="Total: "
+            android:text="Total:"
             android:gravity="right"
-/>
+        />
         <TextView
-            android:id="@+id/user_totalamount"
+            android:id="@+id/review_total_amount"
             android:layout_width="0dp"
             android:layout_height="wrap_content" 
             android:layout_weight="2"
             android:textSize="20sp"
-            android:text="18"
-            
-/>
+            android:text="18"    
+        />
     </LinearLayout>
 </LinearLayout>

@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import eu.pinnoo.debtapp.R;
 import eu.pinnoo.debtapp.User;
 import eu.pinnoo.debtapp.database.DAO;
@@ -19,7 +18,7 @@ import java.util.List;
 
 /**
  *
- * @author Wouter Pinnoo <Wouter.Pinnoo@UGent.be>
+ * @author see /AUTHORS
  */
 public class AddUserActivity extends Activity {
 
@@ -27,9 +26,9 @@ public class AddUserActivity extends Activity {
     public void onCreate(Bundle savendInstanceState) {
         super.onCreate(savendInstanceState);
         setContentView(R.layout.add_user);
-        final Button applybutton = (Button) findViewById(R.id.confirmadduser);
-        final Button clearbutton = (Button) findViewById(R.id.cancelnewuser);
-        final EditText namefield = (EditText) findViewById(R.id.username);
+        final Button applybutton = (Button) findViewById(R.id.add_user_applybutton);
+        final Button clearbutton = (Button) findViewById(R.id.add_user_clearbutton);
+        final EditText namefield = (EditText) findViewById(R.id.add_user_username);
         applybutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String username = namefield.getText().toString();
@@ -61,14 +60,14 @@ public class AddUserActivity extends Activity {
     }
 
     public void clearField() {
-        ((EditText) findViewById(R.id.username)).setText("");
+        ((EditText) findViewById(R.id.add_user_username)).setText("");
     }
 
     public void refresh() {
-        ListView listview = (ListView) findViewById(R.id.userlist);
+        ListView listview = (ListView) findViewById(R.id.add_user_userlist);
         listview.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, getUserList()));
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -78,8 +77,6 @@ public class AddUserActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        Intent intent;
         switch (item.getItemId()) {
             case R.id.refresh:
                 refresh();

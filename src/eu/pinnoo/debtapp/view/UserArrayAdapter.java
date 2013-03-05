@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  *
- * @author Stefaan Vermassen <Stefaan.Vermassen@UGent.be>
+ * @author see /AUTHORS
  */
 public class UserArrayAdapter extends ArrayAdapter<User> implements CompoundButton.OnCheckedChangeListener {
 

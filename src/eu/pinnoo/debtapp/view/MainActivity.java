@@ -40,15 +40,16 @@ import static eu.pinnoo.debtapp.models.UserModel.DIRECTION.WEST;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ *
+ * @author see /AUTHORS
+ */
 public class MainActivity extends Activity {
 
     private UserModel usermodel;
     private DAO dao;
     private UserArrayAdapter adapter;
 
-    /**
-     * Called when the activity is first created.
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,11 +57,11 @@ public class MainActivity extends Activity {
         checkNetworkConnection();
         usermodel = new UserModel(this);
         dao = DAO.getInstance();
-        EditText amountEditText = (EditText) findViewById(R.id.amount_edittext);
-        amountEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter()});
-        
-        final Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
-        final Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
+        EditText amountEditText = (EditText) findViewById(R.id.main_amount);
+        amountEditText.setFilters(new InputFilter[]{new DecimalDigitsInputFilter()});
+
+        final Spinner spinner1 = (Spinner) findViewById(R.id.main_user_left_spinner);
+        final Spinner spinner2 = (Spinner) findViewById(R.id.main_user_right_spinner);
 
         OnItemSelectedListener listener = new OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> av, View view, int i, long l) {
@@ -74,9 +75,9 @@ public class MainActivity extends Activity {
         spinner1.setOnItemSelectedListener(listener);
         spinner2.setOnItemSelectedListener(listener);
 
-        final TextView debtorlabel = (TextView) findViewById(R.id.debtor);
-        final TextView creditorlabel = (TextView) findViewById(R.id.creditor);
-        final Button switchbutton = (Button) findViewById(R.id.btnSwitch);
+        final TextView debtorlabel = (TextView) findViewById(R.id.main_user_right_label);
+        final TextView creditorlabel = (TextView) findViewById(R.id.main_user_left_label);
+        final Button switchbutton = (Button) findViewById(R.id.main_switch_button);
         switch (usermodel.getCurDir()) {
             case EAST:
                 switchbutton.setBackgroundResource(R.drawable.forward);
@@ -108,25 +109,24 @@ public class MainActivity extends Activity {
             }
         });
 
-        final Button clearbutton = (Button) findViewById(R.id.cancel);
+        final Button clearbutton = (Button) findViewById(R.id.main_cancel);
         clearbutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 clearFields();
             }
         });
 
-        final Button applybutton = (Button) findViewById(R.id.ok);
+        final Button applybutton = (Button) findViewById(R.id.main_apply);
         applybutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                boolean valid = true;
                 int tmpamount = 0;
                 try {
-                    tmpamount = (int) (100 * Double.parseDouble((((EditText) findViewById(R.id.amount_edittext)).getText().toString())));
+                    tmpamount = (int) (100 * Double.parseDouble((((EditText) findViewById(R.id.main_amount)).getText().toString())));
                 } catch (NumberFormatException e) {
                     return;
                 }
 
-                final String description = ((EditText) findViewById(R.id.description_edittext)).getText().toString();
+                final String description = ((EditText) findViewById(R.id.main_description)).getText().toString();
 
                 final int amount = tmpamount;
 
@@ -160,7 +160,7 @@ public class MainActivity extends Activity {
                 User debtor = usermodel.getDebtor();
                 User creditor = usermodel.getCreditor();
 
-                if (((Switch) findViewById(R.id.switcher)).isChecked()) {
+                if (((Switch) findViewById(R.id.main_typeSwitch)).isChecked()) {
                     dao.payOffDebt(amount, description, creditor, debtor);
                 } else {
                     dao.addDebt(creditor, debtor,
@@ -185,7 +185,7 @@ public class MainActivity extends Activity {
         }
         List<Debt> debts = dao.getDebts(creditor, debtor);
         if (debts == null || debts.isEmpty()) {
-            ((TextView) this.findViewById(R.id.totalamount)).setText("0");
+            ((TextView) this.findViewById(R.id.main_total)).setText("0");
             return;
         }
         Iterator<Debt> it = debts.iterator();
@@ -197,26 +197,26 @@ public class MainActivity extends Activity {
             amount += d.getAmount();
             rowNumber++;
         }
-        TextView totalamount = (TextView) this.findViewById(R.id.totalamount);
-        totalamount.setText(((double) amount)/100 + "");
+        TextView totalamount = (TextView) this.findViewById(R.id.main_total);
+        totalamount.setText(((double) amount) / 100 + "");
     }
 
     private void clearFields() {
-        ((EditText) findViewById(R.id.amount_edittext)).setText("");
-        ((EditText) findViewById(R.id.description_edittext)).setText("");
+        ((EditText) findViewById(R.id.main_amount)).setText("");
+        ((EditText) findViewById(R.id.main_description)).setText("");
     }
 
     private void addTableRow(int amount, String description, int rowNumber) {
         LayoutInflater inflater = getLayoutInflater();
         TableLayout tl = (TableLayout) findViewById(R.id.main_table);
-        TableRow tr = (TableRow) inflater.inflate(R.layout.table_row, tl, false);
-        TextView label_amount = (TextView) tr.findViewById(R.id.amount);
-        label_amount.setText(((double) amount)/100 + "");
+        TableRow tr = (TableRow) inflater.inflate(R.layout.main_table_row, tl, false);
+        TextView label_amount = (TextView) tr.findViewById(R.id.main_row_amount);
+        label_amount.setText(((double) amount) / 100 + "");
         label_amount.setPadding(1, 5, 5, 5);
-        TextView label_description = (TextView) tr.findViewById(R.id.description);;
+        TextView label_description = (TextView) tr.findViewById(R.id.main_row_description);
         label_description.setText(description);
         label_description.setPadding(5, 5, 5, 5);
-        //Set colors of background and colors of font sizes
+        
         if (rowNumber % 2 == 0) {
             tr.setBackgroundColor(Color.GRAY);
             label_amount.setTextColor(Color.RED);
@@ -227,6 +227,7 @@ public class MainActivity extends Activity {
             label_amount.setTextColor(Color.RED);
             label_description.setTextColor(Color.BLACK);
         }
+        
         tl.addView(tr);
     }
 
@@ -328,7 +329,7 @@ public class MainActivity extends Activity {
                 return true;
             case R.id.refresh:
                 updateItemsInUserSpinners();
-                updateSpinnerAdapters((Spinner) findViewById(R.id.spinner1), (Spinner) findViewById(R.id.spinner2), adapter); 
+                updateSpinnerAdapters((Spinner) findViewById(R.id.main_user_left_spinner), (Spinner) findViewById(R.id.main_user_right_spinner), adapter);
                 refresh();
                 return true;
             default:
@@ -359,8 +360,8 @@ public class MainActivity extends Activity {
                 askForPassword("Something went wrong!");
             }
             if (adapter != null) {
-                Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
-                Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
+                Spinner spinner1 = (Spinner) findViewById(R.id.main_user_left_spinner);
+                Spinner spinner2 = (Spinner) findViewById(R.id.main_user_right_spinner);
                 updateSpinnerAdapters(spinner1, spinner2, adapter);
             }
         }

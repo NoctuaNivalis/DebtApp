@@ -8,127 +8,122 @@
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
                   android:orientation="horizontal" >
-    
         <TextView
-            android:id="@+id/creditor"
+            android:id="@+id/main_user_left_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" 
             android:textSize="20sp"
-/>
+        />
         <TextView
-            android:id="@+id/debtor"
+            android:id="@+id/main_user_right_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content" 
             android:layout_weight="1"
             android:gravity="right"
             android:textSize="20sp"
-/>
+        />
     </LinearLayout>
     
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
-                  android:orientation="horizontal" >
-    
+                  android:orientation="horizontal" >   
         <Spinner
-            android:id="@+id/spinner1"
+            android:id="@+id/main_user_left_spinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" 
-/>
+        />
         <Button
-            android:id="@+id/btnSwitch"
+            android:id="@+id/main_switch_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/double_arrow"
- />
+        />
         <Spinner
-            android:id="@+id/spinner2"
+            android:id="@+id/main_user_right_spinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content" 
             android:layout_weight="1"
-/>
+        />
     </LinearLayout>
+    
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
                   android:orientation="horizontal" >
-        
         <EditText
-            android:id="@+id/description_edittext"
+            android:id="@+id/main_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:maxLength="20"
-            android:hint="Description" />
+            android:hint="Description"
+        />
     
         <EditText
-            android:id="@+id/amount_edittext"
+            android:id="@+id/main_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:inputType="numberDecimal"
-            android:hint="Amount" />
+            android:hint="Amount"
+        />
     </LinearLayout>
     
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
                   android:orientation="horizontal" >
-        
         <Switch 
-            android:id="@+id/switcher"
+            android:id="@+id/main_typeSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textOn="Pay off"
             android:textOff="Debt"
-/>
+        />
   
         <Button
-            android:id="@+id/cancel"
+            android:id="@+id/main_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Clear" 
             android:layout_weight="1"
-/>
+        />
+        
         <Button
-            android:id="@+id/ok"
+            android:id="@+id/main_apply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Apply" 
             android:layout_weight="1"
-/>
-
+        />
     </LinearLayout>
     
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
                  android:stretchColumns="0,1"
-                 android:id="@+id/header_table" 
                  android:layout_height="wrap_content" 
                  android:layout_width="match_parent" 
-                 android:background="@android:color/white"
-    >
+                 android:background="@android:color/white" >
         <TableRow
             android:layout_width="fill_parent"
-            android:padding="5dip"
-        >
-                
+            android:padding="5dip" > 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:text="Description"
                 android:textColor="@android:color/black"
-                />
+            />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:text="Amount"
                 android:textColor="@android:color/black"
-                />
+            />
         </TableRow>
     </TableLayout>
  
@@ -144,13 +139,9 @@
                      android:layout_weight="1" 
                      android:layout_height="wrap_content" 
                      android:layout_width="match_parent" 
-                     android:background="@android:color/white"
-        >
+                     android:background="@android:color/white" >
             <TableRow
-                android:layout_width="fill_parent"
-                
-            >
-                
+                android:layout_width="fill_parent" >
             </TableRow>
         </TableLayout>
     </ScrollView>
@@ -160,28 +151,22 @@
                   android:layout_height="wrap_content"
                   android:orientation="horizontal" 
                   android:layout_alignParentBottom="true"
-                  android:padding="5dip"
-    >
-    
+                  android:padding="5dip" >
         <TextView
-            android:id="@+id/total"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="5" 
             android:textSize="20sp"
             android:text="Total: "
             android:gravity="right"
-/>
+        />
         <TextView
-            android:id="@+id/totalamount"
+            android:id="@+id/main_total"
             android:layout_width="0dp"
             android:layout_height="wrap_content" 
             android:layout_weight="2"
             android:textSize="20sp"
             android:text="18"
-            
-/>
+        />
     </LinearLayout>
- 
 </LinearLayout>
-

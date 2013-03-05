@@ -17,21 +17,20 @@ import org.json.JSONObject;
 
 /**
  *
- * @author Wouter Pinnoo <Wouter.Pinnoo@UGent.be>
+ * @author see /AUTHORS
  */
 public class DAO {
 
     private Database db;
     private PasswordModel pmodel;
-    private JSONArray jsonarray;
     private static DAO instance = null;
 
     protected DAO(PasswordModel pmodel) {
         this.pmodel = pmodel;
     }
-    
-    public static DAO getInstance(){
-        if(instance == null){
+
+    public static DAO getInstance() {
+        if (instance == null) {
             instance = new DAO(new PasswordModel());
         }
         return instance;
@@ -196,12 +195,12 @@ public class DAO {
             addDebt(debtor, creditor, new Debt((amount - sum), description, debtor, creditor));
         }
     }
-    
-    public PasswordModel getPasswordModel(){
+
+    public PasswordModel getPasswordModel() {
         return pmodel;
     }
-    
-    public void addUser(User user){
+
+    public void addUser(User user) {
         String stmt = "INSERT INTO User(name) VALUES(" + "\"" + user.getName() + "\")";
         Database.sendRequest(stmt, pmodel);
     }

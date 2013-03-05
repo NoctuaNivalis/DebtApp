@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  *
- * @author Wouter Pinnoo <Wouter.Pinnoo@UGent.be>
+ * @author see /AUTHORS
  */
 public class UserReviewActivity extends Activity {
 
@@ -33,8 +33,7 @@ public class UserReviewActivity extends Activity {
     public void onCreate(Bundle savendInstanceState) {
         super.onCreate(savendInstanceState);
         setContentView(R.layout.user_review);
-        final TextView payerlabel = (TextView) findViewById(R.id.userlabel);
-        final Spinner spinner = (Spinner) findViewById(R.id.userspinner);
+        final Spinner spinner = (Spinner) findViewById(R.id.review_userspinner);
         userlist = DAO.getInstance().getUsers();
         if (userlist == null) {
             DAO.getInstance().getPasswordModel().setPasswordCorrect(false);
@@ -55,11 +54,11 @@ public class UserReviewActivity extends Activity {
     }
 
     private void refresh() {
-        TextView totalamount = (TextView) findViewById(R.id.user_totalamount);
+        TextView totalamount = (TextView) findViewById(R.id.review_total_amount);
         totalamount.setTextColor(Color.GREEN);
         totalamount.setText("0");
-        TableLayout table = (TableLayout) findViewById(R.id.table_user_review);
-        final Spinner spinner = (Spinner) findViewById(R.id.userspinner);
+        TableLayout table = (TableLayout) findViewById(R.id.review_table);
+        final Spinner spinner = (Spinner) findViewById(R.id.review_userspinner);
         table.removeViews(1, table.getChildCount() - 1);
         User user = (User) spinner.getSelectedItem();
         if (user == null) {
@@ -105,20 +104,20 @@ public class UserReviewActivity extends Activity {
         } else {
             totalamount.setTextColor(Color.RED);
         }
-        totalamount.setText(Math.abs(((double) amount)/100) + "");
+        totalamount.setText(Math.abs(((double) amount) / 100) + "");
     }
 
     private void addTableRow(int amount, String description, int rowNumber, int color, User u) {
         LayoutInflater inflater = getLayoutInflater();
-        TableLayout tl = (TableLayout) findViewById(R.id.table_user_review);
+        TableLayout tl = (TableLayout) findViewById(R.id.review_table);
         TableRow tr = (TableRow) inflater.inflate(R.layout.review_table_row, tl, false);
-        TextView label_amount = (TextView) tr.findViewById(R.id.amount);
-        label_amount.setText(((double) amount)/100 + "");
+        TextView label_amount = (TextView) tr.findViewById(R.id.review_amount);
+        label_amount.setText(((double) amount) / 100 + "");
         label_amount.setPadding(0, 5, 5, 5);
-        TextView label_description = (TextView) tr.findViewById(R.id.description);
+        TextView label_description = (TextView) tr.findViewById(R.id.review_description);
         label_description.setText(description);
         label_description.setPadding(5, 5, 5, 5);
-        TextView label_user = (TextView) tr.findViewById(R.id.user);
+        TextView label_user = (TextView) tr.findViewById(R.id.review_user);
         label_user.setText(u.getName());
         label_user.setPadding(0, 5, 5, 5);
         if (rowNumber % 2 == 0) {
@@ -134,7 +133,7 @@ public class UserReviewActivity extends Activity {
         }
         tl.addView(tr);
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -144,8 +143,6 @@ public class UserReviewActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        Intent intent;
         switch (item.getItemId()) {
             case R.id.refresh:
                 refresh();

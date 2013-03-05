@@ -8,73 +8,71 @@
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
                   android:orientation="horizontal" >
-     <TextView
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content" 
             android:layout_weight="1"
             android:gravity="left"
             android:textSize="20sp"
             android:text="Add a new user:"
-/>
+        />
     </LinearLayout>
     
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
-                  android:orientation="horizontal" >
-        
+                  android:orientation="horizontal" >  
         <EditText
-            android:id="@+id/username"
+            android:id="@+id/add_user_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:maxLength="20"
-            android:hint="Name" />
+            android:hint="Name"
+        />
     </LinearLayout>
     
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
                   android:orientation="horizontal" >
-  
         <Button
-            android:id="@+id/cancelnewuser"
+            android:id="@+id/add_user_clearbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Clear" 
             android:layout_weight="1"
-/>
+        />
         <Button
-            android:id="@+id/confirmadduser"
+            android:id="@+id/add_user_applybutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Apply" 
             android:layout_weight="1"
-/>
-
+        />
     </LinearLayout>
     
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
                   android:orientation="horizontal" >
-     <TextView
+        <TextView
+            android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" 
             android:layout_weight="1"
             android:gravity="left"
             android:textSize="20sp"
             android:text="Existing users:"
-/>     
+        />     
     </LinearLayout>
     
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/userlist"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:textSize="20sp" >
-</ListView>
+              android:id="@+id/add_user_userlist"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:padding="10dp"
+              android:textSize="20sp" >
+    </ListView>
     
 </LinearLayout>
 
