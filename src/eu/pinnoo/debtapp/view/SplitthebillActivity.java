@@ -10,7 +10,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +36,7 @@ public class SplitthebillActivity extends Activity {
 
     private List<User> userlist;
     private Spinner spinner;
+    private UserArrayAdapter listadapter;
 
     @Override
     public void onCreate(Bundle savendInstanceState) {
@@ -46,7 +50,16 @@ public class SplitthebillActivity extends Activity {
         spinner = (Spinner) findViewById(R.id.spinner3);
 
         final ListView lv = (ListView) findViewById(R.id.debtorslist);
-        updateSpinnerItems();
+        update();
+        lv.setOnItemClickListener(new OnItemClickListener(){
+
+            public void onItemClick(AdapterView<?> av, View view, int position, long l) {
+                listadapter.toggle(position);
+            }
+
+   
+            
+        });
 
         final Button okButton = (Button) findViewById(R.id.okbutton);
         okButton.setOnClickListener(new View.OnClickListener() {
@@ -112,7 +125,7 @@ public class SplitthebillActivity extends Activity {
         });
     }
 
-    public void updateSpinnerItems() {
+    public void update() {
 
         userlist = DAO.getInstance().getUsers();
 
@@ -120,7 +133,7 @@ public class SplitthebillActivity extends Activity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         final ListView lv = (ListView) findViewById(R.id.debtorslist);
-        UserArrayAdapter listadapter = new UserArrayAdapter(this, userlist, android.R.layout.simple_list_item_multiple_choice);
+        listadapter = new UserArrayAdapter(this, userlist, android.R.layout.simple_list_item_multiple_choice);
         lv.setAdapter(listadapter);
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     }
@@ -169,7 +182,7 @@ public class SplitthebillActivity extends Activity {
     }
 
     public void refresh() {
-        updateSpinnerItems();
+        update();
         clearFields();
     }
 }
