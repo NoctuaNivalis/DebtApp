@@ -79,8 +79,10 @@ public class Database {
             inp = entity.getContent();
         } catch (IOException ex) {
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         } catch (IllegalStateException ex) {
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
         String result = "";
         try {
