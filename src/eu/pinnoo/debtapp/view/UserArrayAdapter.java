@@ -1,13 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package eu.pinnoo.debtapp.view;
 
 import android.app.Activity;
 import android.graphics.Color;
 import android.util.SparseBooleanArray;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -15,7 +10,6 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import eu.pinnoo.debtapp.User;
 import java.util.List;
-import eu.pinnoo.debtapp.R;
 
 /**
  *

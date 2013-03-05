@@ -4,24 +4,22 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import eu.pinnoo.debtapp.Debt;
+import eu.pinnoo.debtapp.DecimalDigitsInputFilter;
 import eu.pinnoo.debtapp.R;
 import eu.pinnoo.debtapp.User;
 import eu.pinnoo.debtapp.database.DAO;
@@ -42,29 +40,20 @@ public class SplitthebillActivity extends Activity {
     public void onCreate(Bundle savendInstanceState) {
         super.onCreate(savendInstanceState);
         setContentView(R.layout.split_the_bill);
-        final TextView payerlabel = (TextView) findViewById(R.id.payer);
-        payerlabel.setText("Payer"); //of in xml omdat dit toch niet verandert?
-        final TextView debtorslabel = (TextView) findViewById(R.id.debtors);
-        debtorslabel.setText("Debtors:");
-
+        EditText amountEditText = (EditText) findViewById(R.id.stb_amount);
+        amountEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter()});
         spinner = (Spinner) findViewById(R.id.spinner3);
-
         final ListView lv = (ListView) findViewById(R.id.debtorslist);
         update();
         lv.setOnItemClickListener(new OnItemClickListener(){
 
             public void onItemClick(AdapterView<?> av, View view, int position, long l) {
                 listadapter.toggle(position);
-            }
-
-   
-            
+            }            
         });
-
         final Button okButton = (Button) findViewById(R.id.okbutton);
         okButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                boolean valid = true;
                 double tmpamount = 0;
                 try {
                     tmpamount = Double.parseDouble((((EditText) findViewById(R.id.stb_amount)).getText().toString()));
@@ -73,13 +62,10 @@ public class SplitthebillActivity extends Activity {
                 }
 
                 final String description = ((EditText) findViewById(R.id.stb_desc)).getText().toString();
-
                 final double amount = tmpamount;
-
                 if (amount == 0 || description == null) {
                     return;
                 }
-
                 if (description.isEmpty()) {
                     AlertDialog.Builder alt_bld = new AlertDialog.Builder(SplitthebillActivity.this);
                     alt_bld.setMessage("Proceed without description?")
@@ -112,13 +98,9 @@ public class SplitthebillActivity extends Activity {
                     }
                 }
                 splitTheBill(new Debt(amount, description), payer, selectedusers);
-
                 refresh();
-
                 clearFields();
-
                 InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
                 inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
             }
@@ -126,9 +108,7 @@ public class SplitthebillActivity extends Activity {
     }
 
     public void update() {
-
         userlist = DAO.getInstance().getUsers();
-
         UserArrayAdapter adapter = new UserArrayAdapter(this, userlist, android.R.layout.simple_list_item_1);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -170,8 +150,6 @@ public class SplitthebillActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        Intent intent;
         switch (item.getItemId()) {
             case R.id.refresh:
                 refresh();

@@ -166,13 +166,9 @@ public class MainActivity extends Activity {
                     dao.addDebt(creditor, debtor,
                             new Debt(amount, description, creditor, debtor));
                 }
-
                 refresh();
-
                 clearFields();
-
                 InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
                 inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
             }
@@ -235,8 +231,6 @@ public class MainActivity extends Activity {
     }
 
     private void updateItemsInUserSpinners() {
-        Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
-        Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
         List<User> userlist = dao.getUsers();
         if (userlist == null) {
             dao.getPasswordModel().setPasswordCorrect(false);
@@ -318,7 +312,6 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         Intent intent;
         switch (item.getItemId()) {
             case R.id.splitthebill:
