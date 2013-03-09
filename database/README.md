@@ -12,4 +12,6 @@ The Android application can access the database by sending a POST request to `sq
 
 As you can see in [database_implementation.sql](database_implementation.sql), the database consists of two tables:
 * User(name:varchar, id:integer)
-* Debts(debtid:integer, amount:double, description:varchar, creditorid:integer, debtorid:integer)
+* Debts(debtid:integer, amount:integer, description:varchar, creditorid:integer, debtorid:integer)
+
+The debts are stored as integers (amount of cents).
