@@ -2,8 +2,10 @@ package eu.pinnoo.debtapp.view;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.Menu;
@@ -43,7 +45,7 @@ public class SplitthebillActivity extends Activity {
         amountEditText.setFilters(new InputFilter[]{new DecimalDigitsInputFilter()});
         spinner = (Spinner) findViewById(R.id.stb_payer_spinner);
         final ListView lv = (ListView) findViewById(R.id.stb_debtorslist);
-        update();
+        new LoadUsers().execute();
         lv.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> av, View view, int position, long l) {
                 listadapter.toggle(position);
@@ -95,25 +97,12 @@ public class SplitthebillActivity extends Activity {
                         selectedusers.add((User) lv.getItemAtPosition(i));
                     }
                 }
-                splitTheBill(new Debt(amount, description), payer, selectedusers);
-                refresh();
-                clearFields();
+                new SplitTheBillAction(new Debt(amount, description), payer, selectedusers).execute();
                 InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
-    }
-
-    public void update() {
-        userlist = DAO.getInstance().getUsers();
-        UserArrayAdapter adapter = new UserArrayAdapter(this, userlist, android.R.layout.simple_list_item_1);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        final ListView lv = (ListView) findViewById(R.id.stb_debtorslist);
-        listadapter = new UserArrayAdapter(this, userlist, android.R.layout.simple_list_item_multiple_choice);
-        lv.setAdapter(listadapter);
-        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     }
 
     public void clearFields() {
@@ -158,7 +147,74 @@ public class SplitthebillActivity extends Activity {
     }
 
     public void refresh() {
-        update();
+        new LoadUsers().execute();
         clearFields();
+    }
+
+    private class LoadUsers extends AsyncTask<Void, Void, Integer> {
+
+        private ProgressDialog dialog = new ProgressDialog(SplitthebillActivity.this);
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Loading users...");
+            dialog.show();
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            userlist = DAO.getInstance().getUsers();
+            return 0;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            dialog.dismiss();
+            UserArrayAdapter adapter = new UserArrayAdapter(SplitthebillActivity.this, userlist, android.R.layout.simple_list_item_1);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+            final ListView lv = (ListView) findViewById(R.id.stb_debtorslist);
+            listadapter = new UserArrayAdapter(SplitthebillActivity.this, userlist, android.R.layout.simple_list_item_multiple_choice);
+            lv.setAdapter(listadapter);
+            lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        }
+    }
+
+    private class SplitTheBillAction extends AsyncTask<Void, Void, Integer> {
+
+        private ProgressDialog dialog = new ProgressDialog(SplitthebillActivity.this);
+        private Debt debt;
+        private User payer;
+        private List<User> users;
+
+        public SplitTheBillAction(Debt debt, User payer, ArrayList<User> users) {
+            this.debt = debt;
+            this.payer = payer;
+            this.users = users;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Applying...");
+            dialog.show();
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            int debtors = users.size();
+            Debt splitted = new Debt(debt.getAmount() / debtors, debt.getDescription());
+            for (int i = 0; i < users.size(); i++) {
+                if (!users.get(i).equals(payer)) {
+                    DAO.getInstance().addDebt(payer, users.get(i), splitted);
+                }
+            }
+            return 0;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            dialog.dismiss();
+            refresh();
+        }
     }
 }
