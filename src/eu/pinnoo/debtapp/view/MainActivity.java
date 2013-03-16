@@ -157,20 +157,7 @@ public class MainActivity extends Activity {
             }
 
             private void apply(int amount, String description) {
-                User debtor = usermodel.getDebtor();
-                User creditor = usermodel.getCreditor();
-
-                if (((Switch) findViewById(R.id.main_typeSwitch)).isChecked()) {
-                    dao.payOffDebt(amount, description, creditor, debtor);
-                } else {
-                    dao.addDebt(creditor, debtor,
-                            new Debt(amount, description, creditor, debtor));
-                }
-                refresh();
-                clearFields();
-                InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
+                new ApplyAction(amount, description).execute();
             }
         });
     }
@@ -216,7 +203,7 @@ public class MainActivity extends Activity {
         TextView label_description = (TextView) tr.findViewById(R.id.main_row_description);
         label_description.setText(description);
         label_description.setPadding(5, 5, 5, 5);
-        
+
         if (rowNumber % 2 == 0) {
             tr.setBackgroundColor(Color.GRAY);
             label_amount.setTextColor(Color.RED);
@@ -227,7 +214,7 @@ public class MainActivity extends Activity {
             label_amount.setTextColor(Color.RED);
             label_description.setTextColor(Color.BLACK);
         }
-        
+
         tl.addView(tr);
     }
 
@@ -364,6 +351,48 @@ public class MainActivity extends Activity {
                 Spinner spinner2 = (Spinner) findViewById(R.id.main_user_right_spinner);
                 updateSpinnerAdapters(spinner1, spinner2, adapter);
             }
+        }
+    }
+
+    private class ApplyAction extends AsyncTask<Void, Void, Integer> {
+
+        private ProgressDialog dialog = new ProgressDialog(MainActivity.this);
+        private int amount;
+        private String description;
+
+        public ApplyAction(int amount, String description) {
+            this.amount = amount;
+            this.description = description;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Applying...");
+            dialog.show();
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            User debtor = usermodel.getDebtor();
+            User creditor = usermodel.getCreditor();
+
+            if (((Switch) findViewById(R.id.main_typeSwitch)).isChecked()) {
+                dao.payOffDebt(amount, description, creditor, debtor);
+            } else {
+                dao.addDebt(creditor, debtor,
+                        new Debt(amount, description, creditor, debtor));
+            }
+            return 0;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            dialog.dismiss();
+            refresh();
+            clearFields();
+            InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 }
