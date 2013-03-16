@@ -25,7 +25,6 @@ if (sha1($password) == "XXXXXXXXXXXXXXX") {
 	}
 
 	$stmt="INSERT INTO Debts(amount, description, creditorid, debtorid) VALUES($amount, '$description', (SELECT id FROM User WHERE name='$creditor'), (SELECT id FROM User WHERE name='$debtor'))";
-	print $stmt . "<br />";
 
 	mysql_query($stmt);
 
