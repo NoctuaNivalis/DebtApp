@@ -170,22 +170,7 @@ public class MainActivity extends Activity {
         if (debtor == null || creditor == null) {
             return;
         }
-        List<Debt> debts = dao.getDebts(creditor, debtor);
-        if (debts == null || debts.isEmpty()) {
-            ((TextView) this.findViewById(R.id.main_total)).setText("0");
-            return;
-        }
-        Iterator<Debt> it = debts.iterator();
-        int rowNumber = 0;
-        int amount = 0;
-        while (it.hasNext()) {
-            Debt d = it.next();
-            addTableRow(d.getAmount(), d.getDescription(), rowNumber);
-            amount += d.getAmount();
-            rowNumber++;
-        }
-        TextView totalamount = (TextView) this.findViewById(R.id.main_total);
-        totalamount.setText(((double) amount) / 100 + "");
+        new LoadDebts(creditor, debtor).execute();
     }
 
     private void clearFields() {
@@ -393,6 +378,51 @@ public class MainActivity extends Activity {
             InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                     InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    private class LoadDebts extends AsyncTask<Void, Void, Integer> {
+
+        private ProgressDialog dialog = new ProgressDialog(MainActivity.this);
+        private User creditor;
+        private User debtor;
+        private List<Debt> debts;
+
+        public LoadDebts(User creditor, User debtor) {
+            this.creditor = creditor;
+            this.debtor = debtor;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Loading debts...");
+            dialog.show();
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            debts = dao.getDebts(creditor, debtor);
+            return 0;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            dialog.dismiss();
+            if (debts == null || debts.isEmpty()) {
+                ((TextView) MainActivity.this.findViewById(R.id.main_total)).setText("0");
+                return;
+            }
+            Iterator<Debt> it = debts.iterator();
+            int rowNumber = 0;
+            int amount = 0;
+            while (it.hasNext()) {
+                Debt d = it.next();
+                addTableRow(d.getAmount(), d.getDescription(), rowNumber);
+                amount += d.getAmount();
+                rowNumber++;
+            }
+            TextView totalamount = (TextView) MainActivity.this.findViewById(R.id.main_total);
+            totalamount.setText(((double) amount) / 100 + "");
         }
     }
 }
