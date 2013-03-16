@@ -1,7 +1,8 @@
 package eu.pinnoo.debtapp.view;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,9 +37,7 @@ public class AddUserActivity extends Activity {
                     return;
                 }
 
-                DAO.getInstance().addUser(new User(username));
-                clearField();
-                refresh();
+                new AddUserAction(username).execute();
             }
         });
 
@@ -50,22 +49,12 @@ public class AddUserActivity extends Activity {
         refresh();
     }
 
-    public String[] getUserList() {
-        List<User> list = DAO.getInstance().getUsers();
-        String[] userlist = new String[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            userlist[i] = list.get(i).getName();
-        }
-        return userlist;
-    }
-
     public void clearField() {
         ((EditText) findViewById(R.id.add_user_username)).setText("");
     }
 
     public void refresh() {
-        ListView listview = (ListView) findViewById(R.id.add_user_userlist);
-        listview.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, getUserList()));
+        new LoadUsers().execute();
     }
 
     @Override
@@ -83,6 +72,64 @@ public class AddUserActivity extends Activity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private class AddUserAction extends AsyncTask<Void, Void, Integer> {
+
+        private ProgressDialog dialog = new ProgressDialog(AddUserActivity.this);
+        private String username;
+
+        public AddUserAction(String username) {
+            this.username = username;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Applying...");
+            dialog.show();
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            DAO.getInstance().addUser(new User(username));
+            return 0;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            dialog.dismiss();
+            clearField();
+            refresh();
+        }
+    }
+
+    private class LoadUsers extends AsyncTask<Void, Void, Integer> {
+
+        private ProgressDialog dialog = new ProgressDialog(AddUserActivity.this);
+        private List<User> list;
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Loading users...");
+            dialog.show();
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            list = DAO.getInstance().getUsers();
+            return 0;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            dialog.dismiss();
+            String[] userlist = new String[list.size()];
+            for (int i = 0; i < list.size(); i++) {
+                userlist[i] = list.get(i).getName();
+            }
+            ListView listview = (ListView) findViewById(R.id.add_user_userlist);
+            listview.setAdapter(new ArrayAdapter<String>(AddUserActivity.this, android.R.layout.simple_list_item_1, android.R.id.text1, userlist));
         }
     }
 }
