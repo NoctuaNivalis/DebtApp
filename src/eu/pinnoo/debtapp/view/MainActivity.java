@@ -339,12 +339,12 @@ public class MainActivity extends Activity {
 
     private class VerifyPassword extends AsyncTask<Void, Void, Integer> {
 
-        private ProgressDialog Dialog = new ProgressDialog(MainActivity.this);
+        private ProgressDialog dialog = new ProgressDialog(MainActivity.this);
 
         @Override
         protected void onPreExecute() {
-            Dialog.setMessage("Verifying password...");
-            Dialog.show();
+            dialog.setMessage("Verifying password...");
+            dialog.show();
         }
 
         @Override
@@ -355,7 +355,7 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onPostExecute(Integer result) {
-            Dialog.dismiss();
+            dialog.dismiss();
             if (!dao.getPasswordModel().passwordCorrect()) {
                 askForPassword("Something went wrong!");
             }
