@@ -54,9 +54,9 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        dao = DAO.getInstance();
         checkNetworkConnection();
         usermodel = new UserModel(this);
-        dao = DAO.getInstance();
         EditText amountEditText = (EditText) findViewById(R.id.main_amount);
         amountEditText.setFilters(new InputFilter[]{new DecimalDigitsInputFilter()});
 
@@ -232,6 +232,12 @@ public class MainActivity extends Activity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String value = input.getText().toString();
                 dao.getPasswordModel().setPassword(value);
+
+                getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                    .edit()
+                    .putString("password", value)
+                    .commit();
+
                 new VerifyPassword().execute();
 
                 InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -272,9 +278,12 @@ public class MainActivity extends Activity {
         if (!isNetworkAvailable()) {
             showErrorDialogAndExit();
         } else {
-            boolean ask_password = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("ask_password", true);
-            if (ask_password) {
+            String password = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getString("password", "");
+            if ("".equals(password)) {
                 askForPassword("Password needed!");
+            } else {
+                dao.getPasswordModel().setPassword(password);
+                new VerifyPassword().execute();
             }
         }
     }
@@ -333,11 +342,6 @@ public class MainActivity extends Activity {
             dialog.dismiss();
             if (!dao.getPasswordModel().passwordCorrect()) {
                 askForPassword("Something went wrong!");
-            } else {
-                getSharedPreferences("PREFERENCE", MODE_PRIVATE)
-                    .edit()
-                    .putBoolean("ask_password", false)
-                    .commit();
             }
             if (adapter != null) {
                 Spinner spinner1 = (Spinner) findViewById(R.id.main_user_left_spinner);
