@@ -44,7 +44,9 @@ public class UserReviewActivity extends Activity {
         final Spinner spinner = (Spinner) findViewById(R.id.review_userspinner);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                new UserItemsUpdater().execute();
+                if (id != 0) {
+                    new UserItemsUpdater().execute();
+                }
             }
 
             public void onNothingSelected(AdapterView<?> parent) {
@@ -58,6 +60,8 @@ public class UserReviewActivity extends Activity {
             DAO.getInstance().getPasswordModel().setPasswordCorrect(false);
         } else {
             DAO.getInstance().getPasswordModel().setPasswordCorrect(true);
+            userlist.add(0, new User("Select"));
+            
             adapter = new UserArrayAdapter(this, userlist, android.R.layout.simple_list_item_1);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
