@@ -125,8 +125,13 @@ public class AddUserActivity extends Activity {
         protected void onPostExecute(Integer result) {
             dialog.dismiss();
             String[] userlist = new String[list.size()];
-            for (int i = 0; i < list.size(); i++) {
-                userlist[i] = list.get(i).getName();
+            int i = 0;
+            int j = 0;
+            while (i < list.size()) {
+                if(!list.get(i).getName().equals("Select")){
+                   userlist[j++] = list.get(i).getName(); 
+                }
+                i++;
             }
             ListView listview = (ListView) findViewById(R.id.add_user_userlist);
             listview.setAdapter(new ArrayAdapter<String>(AddUserActivity.this, android.R.layout.simple_list_item_1, android.R.id.text1, userlist));

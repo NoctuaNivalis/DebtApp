@@ -132,7 +132,7 @@ public class MainActivity extends Activity {
 
                 final int amount = tmpamount;
 
-                if (amount == 0 || description == null) {
+                if (amount == 0 || description == null || spinner1.getSelectedItemId() == 0 || spinner2.getSelectedItemId() == 0) {
                     return;
                 }
 
