@@ -137,13 +137,13 @@ public class MainActivity extends Activity {
                 if (description.isEmpty()) {
                     AlertDialog.Builder alt_bld = new AlertDialog.Builder(MainActivity.this);
                     alt_bld.setMessage("Proceed without description?")
-                            .setCancelable(false)
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             apply(amount, description);
                         }
                     })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
                         }
@@ -236,7 +236,7 @@ public class MainActivity extends Activity {
 
                 InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(input.getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
+                    InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
         AlertDialog dialog = alert.create();
@@ -272,7 +272,10 @@ public class MainActivity extends Activity {
         if (!isNetworkAvailable()) {
             showErrorDialogAndExit();
         } else {
-            askForPassword("Password needed!");
+            boolean ask_password = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("ask_password", true);
+            if (ask_password) {
+                askForPassword("Password needed!");
+            }
         }
     }
 
@@ -330,6 +333,11 @@ public class MainActivity extends Activity {
             dialog.dismiss();
             if (!dao.getPasswordModel().passwordCorrect()) {
                 askForPassword("Something went wrong!");
+            } else {
+                getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                    .edit()
+                    .putBoolean("ask_password", false)
+                    .commit();
             }
             if (adapter != null) {
                 Spinner spinner1 = (Spinner) findViewById(R.id.main_user_left_spinner);
@@ -365,7 +373,7 @@ public class MainActivity extends Activity {
                 dao.payOffDebt(amount, description, creditor, debtor);
             } else {
                 dao.addDebt(creditor, debtor,
-                        new Debt(amount, description, creditor, debtor));
+                    new Debt(amount, description, creditor, debtor));
             }
             return 0;
         }
@@ -377,7 +385,7 @@ public class MainActivity extends Activity {
             clearFields();
             InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS);
+                InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 
