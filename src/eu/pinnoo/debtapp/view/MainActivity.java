@@ -65,7 +65,9 @@ public class MainActivity extends Activity {
 
         OnItemSelectedListener listener = new OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> av, View view, int i, long l) {
-                refresh();
+                if (spinner1.getSelectedItemId() != 0 && spinner2.getSelectedItemId() != 0) {
+                    refresh();
+                }
             }
 
             public void onNothingSelected(AdapterView<?> av) {
@@ -208,6 +210,7 @@ public class MainActivity extends Activity {
         if (userlist == null) {
             dao.getPasswordModel().setPasswordCorrect(false);
         } else {
+            userlist.add(0, new User("Select"));
             dao.getPasswordModel().setPasswordCorrect(true);
             adapter = new UserArrayAdapter(this, userlist, android.R.layout.simple_list_item_1);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
