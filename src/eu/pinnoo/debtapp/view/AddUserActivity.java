@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import com.google.analytics.tracking.android.EasyTracker;
 import eu.pinnoo.debtapp.R;
 import eu.pinnoo.debtapp.User;
 import eu.pinnoo.debtapp.database.DAO;
@@ -47,6 +48,16 @@ public class AddUserActivity extends Activity {
             }
         });
         refresh();
+    }
+    
+    @Override
+    public void onStart(){
+        EasyTracker.getInstance().activityStart(this);
+    }
+    
+    @Override
+    public void onStop(){
+        EasyTracker.getInstance().activityStop(this);
     }
 
     public void clearField() {

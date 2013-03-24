@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import com.google.analytics.tracking.android.EasyTracker;
 import eu.pinnoo.debtapp.Debt;
 import eu.pinnoo.debtapp.DecimalDigitsInputFilter;
 import eu.pinnoo.debtapp.R;
@@ -103,6 +104,16 @@ public class SplitthebillActivity extends Activity {
                         InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
+    }
+    
+    @Override
+    public void onStart(){
+        EasyTracker.getInstance().activityStart(this);
+    }
+    
+    @Override
+    public void onStop(){
+        EasyTracker.getInstance().activityStop(this);
     }
 
     public void clearFields() {

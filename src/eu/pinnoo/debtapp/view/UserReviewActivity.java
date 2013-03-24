@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import com.google.analytics.tracking.android.EasyTracker;
 import eu.pinnoo.debtapp.Debt;
 import eu.pinnoo.debtapp.R;
 import eu.pinnoo.debtapp.User;
@@ -38,6 +39,16 @@ public class UserReviewActivity extends Activity {
         setContentView(R.layout.user_review);
         initiateSpinner();
         new UsersUpdater().execute();
+    }
+    
+    @Override
+    public void onStart(){
+        EasyTracker.getInstance().activityStart(this);
+    }
+    
+    @Override
+    public void onStop(){
+        EasyTracker.getInstance().activityStop(this);
     }
 
     private void initiateSpinner() {

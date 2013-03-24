@@ -29,6 +29,7 @@ import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import com.google.analytics.tracking.android.EasyTracker;
 import eu.pinnoo.debtapp.Debt;
 import eu.pinnoo.debtapp.DecimalDigitsInputFilter;
 import eu.pinnoo.debtapp.R;
@@ -439,5 +440,15 @@ public class MainActivity extends Activity {
             TextView totalamount = (TextView) MainActivity.this.findViewById(R.id.main_total);
             totalamount.setText(((double) amount) / 100 + "");
         }
+    }
+    
+    @Override
+    public void onStart(){
+        EasyTracker.getInstance().activityStart(this);
+    }
+    
+    @Override
+    public void onStop(){
+        EasyTracker.getInstance().activityStop(this);
     }
 }
