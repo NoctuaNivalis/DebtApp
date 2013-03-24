@@ -40,15 +40,15 @@ public class UserReviewActivity extends Activity {
         initiateSpinner();
         new UsersUpdater().execute();
     }
-    
+
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         EasyTracker.getInstance().activityStart(this);
     }
-    
+
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
         EasyTracker.getInstance().activityStop(this);
     }
@@ -74,7 +74,7 @@ public class UserReviewActivity extends Activity {
         } else {
             DAO.getInstance().getPasswordModel().setPasswordCorrect(true);
             userlist.add(0, new User("Select"));
-            
+
             adapter = new UserArrayAdapter(this, userlist, android.R.layout.simple_list_item_1);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
@@ -179,7 +179,12 @@ public class UserReviewActivity extends Activity {
 
         @Override
         protected void onPostExecute(Integer result) {
-            dialog.dismiss();
+            if (dialog != null) {
+                try {
+                    dialog.dismiss();
+                } catch (IllegalArgumentException ex) {
+                }
+            }
             final Spinner spinner = (Spinner) findViewById(R.id.review_userspinner);
             spinner.setAdapter(adapter);
         }
