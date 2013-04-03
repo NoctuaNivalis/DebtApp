@@ -24,6 +24,8 @@ import java.util.List;
  */
 public class AddUserActivity extends Activity {
 
+    private boolean activityStarted = false;
+    
     @Override
     public void onCreate(Bundle savendInstanceState) {
         super.onCreate(savendInstanceState);
@@ -47,6 +49,16 @@ public class AddUserActivity extends Activity {
                 clearField();
             }
         });
+        refresh();
+        activityStarted = true;
+    }
+    
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(!activityStarted){
+            return;
+        }
         refresh();
     }
     

@@ -37,6 +37,7 @@ public class SplitthebillActivity extends Activity {
     private List<User> userlist;
     private Spinner spinner;
     private UserArrayAdapter listadapter;
+    private boolean activityStarted = false;
 
     @Override
     public void onCreate(Bundle savendInstanceState) {
@@ -104,6 +105,15 @@ public class SplitthebillActivity extends Activity {
                         InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
+    }
+    
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(!activityStarted){
+            return;
+        }
+        refresh();
     }
     
     @Override

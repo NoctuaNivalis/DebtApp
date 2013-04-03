@@ -50,6 +50,7 @@ public class MainActivity extends Activity {
     private UserModel usermodel;
     private DAO dao;
     private UserArrayAdapter adapter;
+    private boolean activityStarted = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -140,13 +141,13 @@ public class MainActivity extends Activity {
                 if (description.isEmpty()) {
                     AlertDialog.Builder alt_bld = new AlertDialog.Builder(MainActivity.this);
                     alt_bld.setMessage("Proceed without description?")
-                        .setCancelable(false)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             apply(amount, description);
                         }
                     })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
                         }
@@ -163,6 +164,8 @@ public class MainActivity extends Activity {
                 new ApplyAction(amount, description).execute();
             }
         });
+        
+        activityStarted = true;
     }
 
     private void refresh() {
@@ -238,15 +241,15 @@ public class MainActivity extends Activity {
                 dao.getPasswordModel().setPassword(value);
 
                 getSharedPreferences("PREFERENCE", MODE_PRIVATE)
-                    .edit()
-                    .putString("password", value)
-                    .commit();
+                        .edit()
+                        .putString("password", value)
+                        .commit();
 
                 new VerifyPassword().execute();
 
                 InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(input.getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS);
+                        InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
         AlertDialog dialog = alert.create();
@@ -381,7 +384,7 @@ public class MainActivity extends Activity {
                 dao.payOffDebt(amount, description, creditor, debtor);
             } else {
                 dao.addDebt(creditor, debtor,
-                    new Debt(amount, description, creditor, debtor));
+                        new Debt(amount, description, creditor, debtor));
             }
             return 0;
         }
@@ -393,7 +396,7 @@ public class MainActivity extends Activity {
             clearFields();
             InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
+                    InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 
@@ -441,15 +444,26 @@ public class MainActivity extends Activity {
             totalamount.setText(((double) amount) / 100 + "");
         }
     }
-    
+
     @Override
-    public void onStart(){
+    public void onResume() {
+        super.onResume();
+        if(!activityStarted){
+            return;
+        }
+        updateItemsInUserSpinners();
+        updateSpinnerAdapters((Spinner) findViewById(R.id.main_user_left_spinner), (Spinner) findViewById(R.id.main_user_right_spinner), adapter);
+        refresh();
+    }
+
+    @Override
+    public void onStart() {
         super.onStart();
         EasyTracker.getInstance().activityStart(this);
     }
-    
+
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
         EasyTracker.getInstance().activityStop(this);
     }
