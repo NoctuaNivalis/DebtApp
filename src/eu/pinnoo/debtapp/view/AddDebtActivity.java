@@ -257,6 +257,7 @@ public class AddDebtActivity extends Activity {
         protected void onPreExecute() {
             dialog.setMessage("Applying...");
             dialog.show();
+            dialog.setCancelable(false);
         }
 
         @Override
@@ -300,6 +301,7 @@ public class AddDebtActivity extends Activity {
         protected void onPreExecute() {
             dialog.setMessage("Loading debts...");
             dialog.show();
+            dialog.setCancelable(false);
         }
 
         @Override

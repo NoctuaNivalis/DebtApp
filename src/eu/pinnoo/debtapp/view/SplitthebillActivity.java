@@ -182,6 +182,7 @@ public class SplitthebillActivity extends Activity {
         protected void onPreExecute() {
             dialog.setMessage("Loading users...");
             dialog.show();
+            dialog.setCancelable(false);
         }
 
         @Override
@@ -220,6 +221,7 @@ public class SplitthebillActivity extends Activity {
         protected void onPreExecute() {
             dialog.setMessage("Applying...");
             dialog.show();
+            dialog.setCancelable(false);
         }
 
         @Override

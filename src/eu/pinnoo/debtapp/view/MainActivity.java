@@ -168,6 +168,7 @@ public class MainActivity extends Activity {
         protected void onPreExecute() {
             dialog.setMessage("Verifying password...");
             dialog.show();
+            dialog.setCancelable(false);
         }
 
         @Override
