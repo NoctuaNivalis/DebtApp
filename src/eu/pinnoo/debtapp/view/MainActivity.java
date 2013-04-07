@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import static android.content.Context.MODE_PRIVATE;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
 import android.content.Intent;
@@ -252,6 +253,13 @@ public class MainActivity extends Activity {
                         InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
+        
+        alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                MainActivity.this.finish();
+            }
+        });
+        
         AlertDialog dialog = alert.create();
         dialog.setOnShowListener(new OnShowListener() {
             @Override
