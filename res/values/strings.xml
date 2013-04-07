@@ -5,4 +5,5 @@
     <string name="userreview">User review</string>
     <string name="adduser">Add a new user</string>
     <string name="refresh">Refresh</string>
+    <string name="add_debt">Add debt</string>
 </resources>

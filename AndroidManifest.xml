@@ -14,10 +14,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-		<activity android:name="eu.pinnoo.debtapp.view.SplitthebillActivity"
+	<activity android:name="eu.pinnoo.debtapp.view.SplitthebillActivity"
                   android:label="@string/Split_the_bill">
         </activity>
-		<activity android:name="eu.pinnoo.debtapp.view.UserReviewActivity"
+	<activity android:name="eu.pinnoo.debtapp.view.AddDebtActivity"
+                  android:label="@string/add_debt">
+        </activity>
+	<activity android:name="eu.pinnoo.debtapp.view.UserReviewActivity"
                   android:label="@string/userreview">
         </activity>
         <activity android:name="eu.pinnoo.debtapp.view.AddUserActivity"
