@@ -169,6 +169,7 @@ public class UserReviewActivity extends Activity {
         protected void onPreExecute() {
             dialog.setMessage("Loading users...");
             dialog.show();
+            dialog.setCancelable(false);
         }
 
         @Override
@@ -205,6 +206,7 @@ public class UserReviewActivity extends Activity {
             table.removeViews(1, table.getChildCount() - 1);
             dialog.setMessage("Loading debts...");
             dialog.show();
+            dialog.setCancelable(false);
         }
 
         @Override

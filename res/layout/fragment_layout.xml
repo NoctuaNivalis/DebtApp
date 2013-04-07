@@ -1,0 +1,32 @@
+<eu.pinnoo.debtapp.view.DashboardLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="1"
+    android:background="#000000" >
+    
+    <Button
+        android:id="@+id/btn_add_debt"
+        style="@style/DashboardButton"
+        android:drawableTop="@drawable/btn_add_debt"
+        android:text="Add debt" />
+    
+    <Button
+        android:id="@+id/btn_split_the_bill"
+        style="@style/DashboardButton"
+        android:drawableTop="@drawable/btn_split_the_bill"
+        android:text="Split the bill" />
+    
+    <Button
+        android:id="@+id/btn_user_review"
+        style="@style/DashboardButton"
+        android:drawableTop="@drawable/btn_user_review"
+        android:text="User review" />
+
+    <Button
+        android:id="@+id/btn_add_user"
+        style="@style/DashboardButton"
+        android:drawableTop="@drawable/btn_add_user"
+        android:text="Add user" />
+
+</eu.pinnoo.debtapp.view.DashboardLayout>
