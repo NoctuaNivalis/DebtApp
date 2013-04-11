@@ -1,22 +1,27 @@
-CREATE TABLE User (
-  name varchar(50) NOT NULL,
-  id integer AUTO_INCREMENT NOT NULL,
-  PRIMARY KEY(id)
+CREATE TABLE users (
+	id INTEGER AUTO_INCREMENT NOT NULL,
+	name VARCHAR(50) NOT NULL,
+	password VARCHAR(50) NOT NULL,
+	PRIMARY KEY(id)
 );
 
-CREATE TABLE Debts (
-  debtid integer AUTO_INCREMENT NOT NULL,
-  amount integer NOT NULL,
-  description varchar(200) NOT NULL,
-  creditorid integer NOT NULL,
-  debtorid integer NOT NULL,
-  PRIMARY KEY(debtid),
-  FOREIGN KEY(creditorid) REFERENCES User(id),
-  FOREIGN KEY(debtorid) REFERENCES User(id)
+CREATE TABLE debts (
+	id INTEGER AUTO_INCREMENT NOT NULL,
+	amount INTEGER NOT NULL,
+	description VARCHAR(200) NOT NULL,
+	creditorid INTEGER NOT NULL,
+	debtorid INTEGER NOT NULL,
+	PRIMARY KEY(id),
+	FOREIGN KEY(creditorid) REFERENCES users(id),
+	FOREIGN KEY(debtorid) REFERENCES users(id)
 );
 
-INSERT INTO User (name) VALUES ('Wouter Pinnoo');
-INSERT INTO User (name) VALUES ('Stefaan Vermassen');
-INSERT INTO User (name) VALUES ('Titouan Vervack');
-INSERT INTO User (name) VALUES ('Eveline Hoogstoel');
-INSERT INTO User (name) VALUES ('Caroline De Brouwer');
+CREATE TABLE friends (
+	id INTEGER AUTO_INCREMENT NOT NULL,
+	friend1id INTEGER NOT NULL,
+	friend2id INTEGER NOT NULL,
+	confirmed BOOLEAN NOT NULL,
+	PRIMARY KEY(id),
+	FOREIGN KEY(friend1id) REFERENCES users(id),
+	FOREIGN KEY(friend2id) REFERENCES users(id)
+);

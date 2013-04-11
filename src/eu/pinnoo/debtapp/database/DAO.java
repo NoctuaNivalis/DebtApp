@@ -37,7 +37,7 @@ public class DAO {
     }
 
     public List<Debt> getDebts(User creditor, User debtor) {
-        String stmt = "SELECT * FROM Debts WHERE creditorid=" + creditor.getId() + " AND debtorid=" + debtor.getId();
+        String stmt = "SELECT * FROM debts WHERE creditorid=" + creditor.getId() + " AND debtorid=" + debtor.getId();
         JSONArray array = Database.sendRequest(stmt, pmodel);
         if (array == null) {
             return null;
@@ -64,7 +64,7 @@ public class DAO {
         }
         int id = -1;
 
-        String stmt = "SELECT id FROM User WHERE name=" + user.getId();
+        String stmt = "SELECT id FROM users WHERE name=" + user.getId();
         JSONArray array = Database.sendRequest(stmt, pmodel);
         if (array == null) {
             return id;
@@ -119,17 +119,17 @@ public class DAO {
         if (debtor.getId() == -1) {
             debtor.setId(getUserId(debtor));
         }
-        String stmt = "INSERT INTO Debts(amount, description, creditorid, debtorid) VALUES(" + debt.getAmount() + ", \"" + debt.getDescription() + "\", " + creditor.getId() + ", " + debtor.getId() + ")";
+        String stmt = "INSERT INTO debts(amount, description, creditorid, debtorid) VALUES(" + debt.getAmount() + ", \"" + debt.getDescription() + "\", " + creditor.getId() + ", " + debtor.getId() + ")";
         Database.sendRequest(stmt, pmodel);
     }
 
     public void updateDebtAmount(Debt debt) {
-        String stmt = "UPDATE Debts SET amount=" + debt.getAmount() + " WHERE debtid=" + debt.getId();
+        String stmt = "UPDATE debts SET amount=" + debt.getAmount() + " WHERE debtid=" + debt.getId();
         Database.sendRequest(stmt, pmodel);
     }
 
     public List<User> getUsers() {
-        String stmt = "SELECT * FROM User";
+        String stmt = "SELECT * FROM users";
         JSONArray array = Database.sendRequest(stmt, pmodel);
         if (array == null) {
             return null;
@@ -152,7 +152,7 @@ public class DAO {
     }
 
     protected void payOffDebt(Debt debt) {
-        String stmt = "DELETE FROM Debts WHERE debtid=" + debt.getId();
+        String stmt = "DELETE FROM debts WHERE debtid=" + debt.getId();
         Database.sendRequest(stmt, pmodel);
     }
 
@@ -201,7 +201,7 @@ public class DAO {
     }
 
     public void addUser(User user) {
-        String stmt = "INSERT INTO User(name) VALUES(" + "\"" + user.getName() + "\")";
+        String stmt = "INSERT INTO users(name) VALUES(" + "\"" + user.getName() + "\")";
         Database.sendRequest(stmt, pmodel);
     }
 }
